@@ -1,0 +1,11 @@
+const sanitizerAdminUsers = (users) => {
+    return users.map(user => ({
+        id: user._id,
+        name: user.name,
+        role: user.role,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+    }))
+}
+
+module.exports = { sanitizerAdminUsers }

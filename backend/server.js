@@ -1,14 +1,14 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const chalk = require("chalk")
+
 const { PORT, MONGOOSE_CONNECT } = require("./constants/server")
+const routes = require('./routes')
+
 const server = express()
+server.use(express.json())
 
-server.get("/products", (req, res) => {
-   res.send({status: "ok"})
-})
-
-
+server.use('/', routes)
 
 mongoose.connect(MONGOOSE_CONNECT).then(() => {
     console.log(chalk.bgBlue(" Mongoose connected... "))
