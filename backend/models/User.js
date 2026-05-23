@@ -15,8 +15,8 @@ const UserSchema = mongoose.Schema({
         required: true,
     },
     role: {
-        type: Number,
-        default: ROLES.USER
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Role",
     }
 }, { timestamps: true })
 

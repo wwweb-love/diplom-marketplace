@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
-const ROLES = require("../constants/roles")
-const CATEGORIES = require("../constants/categories")
 
 // controllers
 const { getUsers, getUser, createUser, updateUser, deleteUser } = require("../controllers/User")
@@ -10,23 +8,21 @@ const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } =
 const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require("../controllers/Category")
 
 // sanitizers
-const { sanitizerAdminUsers } = require("../sanitizers/users/sanitizer-admin-users")
-const { sanitizerAdminUserEdit } = require("../sanitizers/users/sanitizer-admin-user-edit")
-const { sanitizerAdminUserNotification } = require("../sanitizers/users/sanitizer-admin-user-notification")
+const { sanitizerAdminUsers } = require("../sanitizers/admin/users/sanitizer-admin-users")
+const { sanitizerAdminUserEdit } = require("../sanitizers/admin/users/sanitizer-admin-user-edit")
+const { sanitizerAdminUserNotification } = require("../sanitizers/admin/users/sanitizer-admin-user-notification")
 
-const { sanitizerAdminRoles } = require("../sanitizers/roles/sanitizer-admin-roles")
-const { sanitizerAdminRoleEdit } = require("../sanitizers/roles/sanitizer-admin-role-edit")
-const { sanitizerAdminRoleNotification } = require("../sanitizers/roles/sanitizer-admin-role-notification")
+const { sanitizerAdminRoles } = require("../sanitizers/admin/roles/sanitizer-admin-roles")
+const { sanitizerAdminRoleEdit } = require("../sanitizers/admin/roles/sanitizer-admin-role-edit")
+const { sanitizerAdminRoleNotification } = require("../sanitizers/admin/roles/sanitizer-admin-role-notification")
 
-const { sanitizerAdminProducts } = require("../sanitizers/products/sanitizer-admin-products")
-const { sanitizerAdminProductEdit } = require("../sanitizers/products/sanitizer-admin-product-edit")
-const { sanitizerAdminProductNotification } = require("../sanitizers/products/sanitizer-admin-product-notification")
+const { sanitizerAdminProducts } = require("../sanitizers/admin/products/sanitizer-admin-products")
+const { sanitizerAdminProductEdit } = require("../sanitizers/admin/products/sanitizer-admin-product-edit")
+const { sanitizerAdminProductNotification } = require("../sanitizers/admin/products/sanitizer-admin-product-notification")
 
-const { sanitizerAdminCategories } = require("../sanitizers/category/sanitizer-admin-categories")
-const { sanitizerAdminCategoryEdit } = require("../sanitizers/category/sanitizer-admin-category-edit")
-const { sanitizerAdminCategoryNotification } = require("../sanitizers/category/sanitizer-admin-category-notification")
-
-
+const { sanitizerAdminCategories } = require("../sanitizers/admin/category/sanitizer-admin-categories")
+const { sanitizerAdminCategoryEdit } = require("../sanitizers/admin/category/sanitizer-admin-category-edit")
+const { sanitizerAdminCategoryNotification } = require("../sanitizers/admin/category/sanitizer-admin-category-notification")
 
 
 // ---------------------------------------------USERS---------------------------------------------
@@ -117,11 +113,9 @@ router.get("/roles", async (req, res) => {
 
 // Полная информация о выбранной роли
 // Возвращает информацию о роли для редактирования
-router.get("/roles/:nameRole", async (req, res) => {
+router.get("/roles/:id", async (req, res) => {
     try {
-        const { nameRole } = req.params
-        const id = ROLES[nameRole]
-
+        const { id } = req.params
         const roleController = await getRole(id)
         const roleSanitizer = await sanitizerAdminRoleEdit(roleController)
         res.send({ error: null, data: roleSanitizer })
@@ -146,10 +140,9 @@ router.post("/role", async (req, res) => {
 
 // Полное обновление роли
 // Возвращает обновленную роль и новый список ролей
-router.put("/roles/:nameRole", async (req, res) => {
+router.put("/roles/:id", async (req, res) => {
     try {
-        const { nameRole } = req.params
-        const id = ROLES[nameRole]
+        const { id } = req.params
         const { title, name } = req.body
         const { role, roles } = await updateRole(id, title, name)
         const roleSanitizer = sanitizerAdminRoleNotification(role)
@@ -163,10 +156,9 @@ router.put("/roles/:nameRole", async (req, res) => {
 
 // Удаление роли
 // Возвращает удаленную роль и новый список ролей
-router.delete("/roles/:nameRole", async (req, res) => {
+router.delete("/roles/:id", async (req, res) => {
     try {
-        const { nameRole } = req.params
-        const id = ROLES[nameRole]
+        const { id } = req.params
         const { role, roles } = await deleteRole(id)
         const roleSanitizer = sanitizerAdminRoleNotification(role)
         const rolesSanitizer = sanitizerAdminRoles(roles)
@@ -210,6 +202,8 @@ router.post("/product", async (req, res) => {
     try {
         const { title, price, discount, image, count, category } = req.body
         const { product, products } = await createProduct(title, price, discount, image, count, category)
+        console.log(product)
+        console.log(products)
         const productSanitizer = sanitizerAdminProductNotification(product)
         const productsSanitizer = sanitizerAdminProducts(products)
         res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer } })
