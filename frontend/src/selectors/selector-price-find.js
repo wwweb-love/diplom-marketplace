@@ -1,0 +1,1 @@
+export const selectorPriceFind = (state) => state.product.priceFind

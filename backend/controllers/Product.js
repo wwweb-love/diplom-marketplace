@@ -16,7 +16,7 @@ const getProductsFilter = async (textSearch, page, pageLimit, price, category, s
         ProductModel.countDocuments(query)
     ]);
 
-    return products
+    return { products, count }
 }
 
 const getProducts = async (textSearch="", page=0, pageLimit=0, price="", category="") => {

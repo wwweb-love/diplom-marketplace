@@ -1,0 +1,1 @@
+export const selectorPageLimit = (state) => state.products.pageLimit

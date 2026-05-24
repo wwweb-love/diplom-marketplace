@@ -1,0 +1,1 @@
+export const selectorSelectedSort = (state) => state.products.selectedSort

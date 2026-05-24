@@ -1,0 +1,1 @@
+export const selectorCountProducts = (state) => state.products.countProducts

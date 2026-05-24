@@ -1,0 +1,1 @@
+export const selectorPage = (state) => state.products.page

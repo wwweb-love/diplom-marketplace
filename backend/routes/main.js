@@ -1,18 +1,39 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 
-const { getProductsFilter } = require("../controllers/Product")
-const { sanitizerProducts } = require("../sanitizers/main/products/sanitizer-products")
+// middlewares
+const authenticated = require("../middlewares/authenticated")
 
+// controllers
+const { getProductsFilter } = require("../controllers/Product")
+const { getCategories } = require("../controllers/Category")
+
+// sanitizers
+const { sanitizerProducts } = require("../sanitizers/main/products/sanitizer-products")
+const { sanitizerCategories } = require("../sanitizers/main/category/sanitizer-categories")
+
+// Список продуктов 
+// Возвращает по заданным query селекторам список, по поисковому слову, категории, цене, дате, странице
 router.get("/products", async (req, res) => {
     try {
         const { textSearch, page, pageLimit, price, category, sort } = req.query
-        
-        const productsController = await getProductsFilter(textSearch, page, pageLimit, price, category, sort)
-        const prodcuctsSanitizer = await sanitizerProducts(productsController)
+        const { products, count } = await getProductsFilter(textSearch, page, pageLimit, price, category, sort)
+        const prodcuctsSanitizer = await sanitizerProducts(products)
 
-        res.send({ error: null, data: prodcuctsSanitizer })
+        res.send({ error: null, data: { products: prodcuctsSanitizer, count } })
     } catch (error) {
+        res.send({ error: error.message, data: null })
+    }
+})
+
+// Список категорий
+// Возвращает список категорий id, name для сортировки
+router.get("/categories", async (req, res) => {
+    try {
+        const categoriesController = await getCategories()
+        const categoriesSanitizer = await sanitizerCategories(categoriesController)
+        res.send({ error: null, data: categoriesSanitizer })
+    } catch(error) {
         res.send({ error: error.message, data: null })
     }
 })

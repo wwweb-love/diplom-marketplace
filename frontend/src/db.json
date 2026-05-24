@@ -1,0 +1,75 @@
+{
+    "products": [
+        {
+            "id": "0",
+            "title": "Брюки классические",
+            "price": 763,
+            "imageUrl": "https://ir.ozone.ru/s3/multimedia-1-s/wc1000/7267442680.jpg",
+            "count": 22,
+            "category": "clothes",
+            "categoryId": 0
+        },
+        {
+            "id": "1",
+            "title": "Джинсы",
+            "price": 256,
+            "imageUrl": "https://ir.ozone.ru/s3/multimedia-1-u/wc1000/8040746082.jpg",
+            "count": 22,
+            "category": "clothes",
+            "categoryId": 0
+        },
+        {
+            "id": "2",
+            "title": "Джинсы",
+            "price": 563,
+            "imageUrl": "https://ir.ozone.ru/s3/multimedia-1-g/wc1000/8040745816.jpg",
+            "count": 22,
+            "category": "clothes",
+            "categoryId": 0
+        }
+    ],
+    "categories": [
+        {
+            "id": 0,
+            "title": "Одежда"
+        },
+        {
+            "id": 1,
+            "title": "Электроника"
+        },
+        {
+            "id": 2,
+            "title": "Недвижимость"
+        },
+        {
+            "id": 3,
+            "title": "Авто"
+        }
+    ],
+    "basket": {
+        "id": 0,
+        "userId": 0,
+        "price": 1019,
+        "discount": 20,
+        "products": [
+            {
+                "id": "0",
+                "title": "Брюки классические",
+                "price": 763,
+                "imageUrl": "https://ir.ozone.ru/s3/multimedia-1-s/wc1000/7267442680.jpg",
+                "count": 2,
+                "category": "clothes",
+                "categoryId": 0
+            },
+            {
+                "id": "1",
+                "title": "Джинсы",
+                "price": 256,
+                "imageUrl": "https://ir.ozone.ru/s3/multimedia-1-u/wc1000/8040746082.jpg",
+                "count": 1,
+                "category": "clothes",
+                "categoryId": 0
+            }
+        ]
+    }
+}

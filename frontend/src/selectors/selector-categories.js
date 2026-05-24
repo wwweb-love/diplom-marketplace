@@ -1,0 +1,1 @@
+export const selectorCategories = (state) => state.products.categories

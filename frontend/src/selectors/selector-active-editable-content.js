@@ -1,0 +1,1 @@
+export const selectorActiveEditableContent = (state) => state.product.activeEditableContent 

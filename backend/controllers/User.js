@@ -1,5 +1,6 @@
 const UserModel = require("../models/User")
 const bcrypt = require("bcrypt")
+const { generate, verify } = require("../helpers/token")
 
 const getUsers = async () => {
     const users = await UserModel.find().populate({ path: "role" })
@@ -35,4 +36,31 @@ const deleteUser = async (id) => {
     return { user, users } 
 }
 
-module.exports = { getUsers, getUser, createUser, updateUser, deleteUser }
+const authorize = async (login, password) => {
+    const user = await UserModel.findOne({ login })
+
+    if (!user) throw new Error("User not defined")
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordMatch) throw new Error("Password invalid")
+
+    const token = generate({ id: user._id })
+
+    return { token, user }
+}
+
+const registration = async (name, login, password) => {
+
+    if (!password) throw new Error("Password is empty")
+
+    const passwordHash = await bcrypt.hash(password, 10)
+
+    const user = await UserModel.create({ name, login, password: passwordHash, role: "6a11e899e9e39217562455c9" })
+
+    const token = generate({ id: user._id })
+
+    return { user, token }
+}
+
+module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, authorize, registration }

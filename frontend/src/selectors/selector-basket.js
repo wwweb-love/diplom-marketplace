@@ -1,0 +1,1 @@
+export const selectorBasket = (state) => state.product.basket

@@ -1,0 +1,1 @@
+export const selectorTextSearch = (state) => state.products.textSearch
