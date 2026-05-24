@@ -1,0 +1,300 @@
+[{
+  "_id": {
+    "$oid": "6a11e22f12970e2294f45f64"
+  },
+  "title": "Джинсы",
+  "category": {
+    "$oid": "6a11e0276980095835871fed"
+  },
+  "price": 2500,
+  "discount": 13,
+  "count": 22,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-8/wc1000/9195805448.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T17:21:51.643Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T17:21:51.643Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f1bf19ed3f84e34d9e45"
+  },
+  "title": "Кроссовки",
+  "category": {
+    "$oid": "6a11e0276980095835871fed"
+  },
+  "price": 1400,
+  "discount": 9,
+  "count": 12,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-c/wc1000/9772209048.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:28:15.686Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:28:15.686Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f1ec19ed3f84e34d9e46"
+  },
+  "title": "Футболка",
+  "category": {
+    "$oid": "6a11e0276980095835871fed"
+  },
+  "price": 3200,
+  "discount": 11,
+  "count": 44,
+  "image": "https://spb-basket-cdn-06.geobasket.ru/vol2396/part239615/239615941/images/big/1.webp",
+  "createdAt": {
+    "$date": "2026-05-23T18:29:00.805Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:29:00.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f21a19ed3f84e34d9e47"
+  },
+  "title": "Носки",
+  "category": {
+    "$oid": "6a11e0276980095835871fed"
+  },
+  "price": 1200,
+  "discount": 3,
+  "count": 123,
+  "image": "https://spb-basket-cdn-07.geobasket.ru/vol2339/part233949/233949442/images/big/1.webp",
+  "createdAt": {
+    "$date": "2026-05-23T18:29:46.637Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:29:46.637Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f23f19ed3f84e34d9e48"
+  },
+  "title": "Трусы",
+  "category": {
+    "$oid": "6a11e0276980095835871fed"
+  },
+  "price": 990,
+  "discount": 19,
+  "count": 15,
+  "image": "https://spb-basket-cdn-06.geobasket.ru/vol2075/part207509/207509051/images/big/1.webp",
+  "createdAt": {
+    "$date": "2026-05-23T18:30:23.901Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:30:23.901Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f28919ed3f84e34d9e49"
+  },
+  "title": "Монитор",
+  "category": {
+    "$oid": "6a11e86ce9e39217562455c6"
+  },
+  "price": 14400,
+  "discount": 10,
+  "count": 55,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-x/wc1000/10162262517.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:31:37.820Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:31:37.820Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f2bb19ed3f84e34d9e4a"
+  },
+  "title": "Ноутбук",
+  "category": {
+    "$oid": "6a11e86ce9e39217562455c6"
+  },
+  "price": 45000,
+  "discount": 33,
+  "count": 12,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-l/wc1000/9998469345.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:32:27.994Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:32:27.994Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f2e519ed3f84e34d9e4b"
+  },
+  "title": "Телефон",
+  "category": {
+    "$oid": "6a11e86ce9e39217562455c6"
+  },
+  "price": 59000,
+  "discount": 14,
+  "count": 76,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-4/wc1000/9926538160.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:33:09.988Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:33:09.988Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f31019ed3f84e34d9e4c"
+  },
+  "title": "Холодильник",
+  "category": {
+    "$oid": "6a11e86ce9e39217562455c6"
+  },
+  "price": 99000,
+  "discount": 12,
+  "count": 65,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-r/wc1000/8890667667.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:33:52.785Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:33:52.785Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f32e19ed3f84e34d9e4d"
+  },
+  "title": "Микроволновка",
+  "category": {
+    "$oid": "6a11e86ce9e39217562455c6"
+  },
+  "price": 45000,
+  "discount": 12,
+  "count": 32,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-9/wc1000/10473176421.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:34:22.105Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:34:22.105Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f34e19ed3f84e34d9e4e"
+  },
+  "title": "Пылесос",
+  "category": {
+    "$oid": "6a11e86ce9e39217562455c6"
+  },
+  "price": 12020,
+  "discount": 23,
+  "count": 12,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-a/wc1000/7807872790.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:34:54.340Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:34:54.340Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f38819ed3f84e34d9e4f"
+  },
+  "title": "Авто китаец",
+  "category": {
+    "$oid": "6a11e874e9e39217562455c7"
+  },
+  "price": 2099000,
+  "discount": 12,
+  "count": 5,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-7/wc1000/9372511591.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:35:52.527Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:35:52.527Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f3a719ed3f84e34d9e50"
+  },
+  "title": "Авто германия",
+  "category": {
+    "$oid": "6a11e874e9e39217562455c7"
+  },
+  "price": 3001000,
+  "discount": 6,
+  "count": 3,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-q/wc1000/10602607058.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:36:23.376Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:36:23.376Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a11f3c519ed3f84e34d9e51"
+  },
+  "title": "Авто россия",
+  "category": {
+    "$oid": "6a11e874e9e39217562455c7"
+  },
+  "price": 1000000,
+  "discount": 5,
+  "count": 12,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-m/wc1000/10241900482.jpg",
+  "createdAt": {
+    "$date": "2026-05-23T18:36:53.622Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:36:53.622Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a135f8078845c551357983d"
+  },
+  "title": "Бейсболка",
+  "category": {
+    "$oid": "6a11e0276980095835871fed"
+  },
+  "price": 2200,
+  "discount": 21,
+  "count": 123,
+  "image": "https://ir.ozone.ru/s3/multimedia-1-t/wc1000/7540260725.jpg",
+  "createdAt": {
+    "$date": "2026-05-24T20:28:48.906Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-24T20:28:48.906Z"
+  },
+  "__v": 0
+}]

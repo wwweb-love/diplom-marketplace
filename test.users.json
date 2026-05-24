@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "6a11dfa06980095835871feb"
+  },
+  "name": "Romanenko Roman",
+  "login": "rroman211005",
+  "password": "$2b$10$D5OJfZ/y6oZOJoy2kKM2QOV/5qZxRb7.ZL/05oqS9uADyMY4VnJg.",
+  "role": "6a11dfe26980095835871fec",
+  "createdAt": {
+    "$date": "2026-05-23T17:10:56.132Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-23T18:06:42.404Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a130d281108955986318829"
+  },
+  "name": "Romann",
+  "login": "rroman2",
+  "password": "Hjvfytyrj211005!",
+  "role": {
+    "$oid": "6a11e899e9e39217562455c9"
+  },
+  "createdAt": {
+    "$date": "2026-05-24T14:37:28.069Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-24T19:48:54.412Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a1310bc321c80855b96cae6"
+  },
+  "name": "Roma",
+  "login": "roma2115",
+  "password": "$2b$10$oGT/W2guP5HeqTE3O2EvI.Mw/bcoA02yFdjTg/IdR6CxJ9iTKkaoy",
+  "role": {
+    "$oid": "6a11e899e9e39217562455c9"
+  },
+  "createdAt": {
+    "$date": "2026-05-24T14:52:44.298Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-24T14:52:44.298Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a135993dbcb78b4ab5a2c80"
+  },
+  "name": "kostya",
+  "login": "kostya2115",
+  "password": "Hjvfytyrj211005",
+  "role": {
+    "$oid": "6a11e891e9e39217562455c8"
+  },
+  "createdAt": {
+    "$date": "2026-05-24T20:03:31.579Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-24T20:08:25.266Z"
+  },
+  "__v": 0
+}]
