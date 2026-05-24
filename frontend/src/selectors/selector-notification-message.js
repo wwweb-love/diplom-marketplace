@@ -1,0 +1,1 @@
+export const selectorNotificationMessage = (state) => state.admin.notificationMessage

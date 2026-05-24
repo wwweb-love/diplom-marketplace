@@ -1,1 +1,1 @@
-export const selectorAdminData = (state) => state.product.adminData
+export const selectorAdminData = (state) => state.admin.adminData

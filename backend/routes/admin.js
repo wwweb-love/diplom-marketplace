@@ -54,13 +54,13 @@ router.get("/users/:id", async (req, res) => {
 
 // Создание пользователя с данными
 // Возвращает созданного пользователя и новый список пользователей
-router.post("/user", async (req, res) => {
+router.post("/users", async (req, res) => {
     try {
         const { name, login, password, role } = req.body
         const { user, users } = await createUser(name, login, password, role)
         const userSanitizer = sanitizerAdminUserNotification(user)
         const usersSanitizer = sanitizerAdminUsers(users)
-        res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer } })
+        res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer, notification: `Пользователь ${user.name} добавлен` } })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }
@@ -71,11 +71,11 @@ router.post("/user", async (req, res) => {
 router.put("/users/:id", async (req, res) => {
     try {
         const { id } = req.params
-        const { name, login, password, role } = req.body
-        const { user, users } = await updateUser(id, name, login, password, role)
+        const { name, login, role } = req.body
+        const { user, users } = await updateUser(id, name, login, role)
         const userSanitizer = sanitizerAdminUserNotification(user)
         const usersSanitizer = sanitizerAdminUsers(users)
-        res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer } })
+        res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer, notification: `Пользователь ${user.name} изменен` } })
     }
     catch (error) {
         res.send({ error: error.message, data: null })
@@ -91,7 +91,7 @@ router.delete("/users/:id", async (req, res) => {
         const userSanitizer = sanitizerAdminUserNotification(user)
         console.log(userSanitizer)
         const usersSanitizer = sanitizerAdminUsers(users)
-        res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer } })
+        res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer, notification: `Пользователь ${user.name} удален` } })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }
@@ -126,7 +126,7 @@ router.get("/roles/:id", async (req, res) => {
 
 // Создание роли с данными
 // Возвращает созданную роль и новый список ролей
-router.post("/role", async (req, res) => {
+router.post("/roles", async (req, res) => {
     try {
         const { title, name } = req.body
         const { role, roles } = await createRole(title, name)
@@ -198,15 +198,13 @@ router.get("/products/:id", async (req, res) => {
 
 // Создание продукта с данными
 // Возвращает созданный продукт и новый список продуктов
-router.post("/product", async (req, res) => {
+router.post("/products", async (req, res) => {
     try {
         const { title, price, discount, image, count, category } = req.body
         const { product, products } = await createProduct(title, price, discount, image, count, category)
-        console.log(product)
-        console.log(products)
         const productSanitizer = sanitizerAdminProductNotification(product)
         const productsSanitizer = sanitizerAdminProducts(products)
-        res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer } })
+        res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer, notification: `Продукт ${product.title} добавлен` } })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }
@@ -221,7 +219,7 @@ router.put("/products/:id", async (req, res) => {
         const { product, products } = await updateProduct(id, title, price, discount, image, count, category)
         const productSanitizer = sanitizerAdminProductNotification(product)
         const productsSanitizer = sanitizerAdminProducts(products)
-        res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer } })
+        res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer, notification: `Продукт ${product.title} изменен` } })
     }
     catch (error) {
         res.send({ error: error.message, data: null })
@@ -236,7 +234,7 @@ router.delete("/products/:id", async (req, res) => {
         const { product, products } = await deleteProduct(id)
         const productSanitizer = sanitizerAdminProductNotification(product)
         const productsSanitizer = sanitizerAdminProducts(products)
-        res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer } })
+        res.send({ error: null, data: { product: productSanitizer, products: productsSanitizer, notification: `Продукт ${product.title} удален` } })
 
     } catch (error) {
         res.send({ error: error.message, data: null })
@@ -273,13 +271,13 @@ router.get("/categories/:nameCategory", async (req, res) => {
 
 // Создание категории с данными
 // Возвращает созданную категорию и новый список продуктов
-router.post("/category", async (req, res) => {
+router.post("/categories", async (req, res) => {
     try {
         const { title, name } = req.body
         const { category, categories } = await createCategory(title, name)
         const categorySanitizer = sanitizerAdminCategoryNotification(category)
         const categoriesSanitizer = sanitizerAdminCategories(categories)
-        res.send({ error: null, data: { category: categorySanitizer, categories: categoriesSanitizer } })
+        res.send({ error: null, data: { category: categorySanitizer, categories: categoriesSanitizer, notification: `Категория ${category.name} добавлена` } })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }
@@ -295,7 +293,7 @@ router.put("/categories/:nameCategory", async (req, res) => {
         const { category, categories } = await updateCategory(id, title, name)
         const categorySanitizer = sanitizerAdminCategoryNotification(category)
         const categoriesSanitizer = sanitizerAdminCategories(categories)
-        res.send({ error: null, data: { category: categorySanitizer, categories: categoriesSanitizer } })
+        res.send({ error: null, data: { category: categorySanitizer, categories: categoriesSanitizer, notification: `Каьегория ${category.name} изменена` } })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }
@@ -310,7 +308,7 @@ router.delete("/categories/:nameCategory", async (req, res) => {
         const { category, categories } = await deleteCategory(id)
         const categorySanitizer = sanitizerAdminCategoryNotification(category)
         const categoriesSanitizer = sanitizerAdminCategories(categories)
-        res.send({ error: null, data: { category: categorySanitizer, categories: categoriesSanitizer } })
+        res.send({ error: null, data: { category: categorySanitizer, categories: categoriesSanitizer, notification: `Категория ${category.name} удалена` } })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }

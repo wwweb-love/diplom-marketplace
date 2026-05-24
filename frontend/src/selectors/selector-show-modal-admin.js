@@ -1,1 +1,0 @@
-export const selectorShowModalAdmin = (state) => state.product.showModalAdmin 

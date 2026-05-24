@@ -1,0 +1,1 @@
+export const selectorAdminDataModal = (state) => state.admin.adminDataModal

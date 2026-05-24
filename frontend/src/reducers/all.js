@@ -46,13 +46,6 @@ export const all = (state = initialStateProduct, action) => {
         }
 
 
-        case "SET_ADMIN_DATA": {
-            return {
-                ...state,
-                adminData: action.payload
-            }
-        }
-
         case "SET_SHOW_MODAL_ADMIN": {
             return {
                 ...state,

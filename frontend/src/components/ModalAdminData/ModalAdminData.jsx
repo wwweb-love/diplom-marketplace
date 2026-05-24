@@ -3,19 +3,16 @@ import { Button } from "../Button/Button"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { postAdminData, postProduct, putAdminData } from "../../api"
-import { actionAdminData, actionShowModalAdmin } from "../../actions"
-import { selectorActiveEditableContent, selectorAdminData } from "../../selectors"
+import { selectorActiveEditableContent, selectorAdminData, selectorAdminDataModal, selectorAdminDataType, selectorMethodSaveModalAdminData } from "../../selectors"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage"
 import { Loader } from "../Loader/Loader"
+import { actionAdminData, actionAdminDataModal, actionGlobalError, actionMethodSaveModalAdminData, actionNotificationMessage, actionShowModalAdminData } from "../../actions"
+import { useNavigate } from "react-router"
 
 const UserSchema = yup.object().shape({
-    _id: yup
-        .string()
-        .optional()
-        .transform(() => undefined),
     name: yup
         .string()
         .required("Заполните имя")
@@ -30,25 +27,16 @@ const UserSchema = yup.object().shape({
         .max(20, "Неверный логин. Допускается максимум 20 символов"),
     password: yup
         .string()
-        .required("Заполните пароль")
+        // .required("Заполните пароль")
         // .matches(/^[a-zA-Z0-9!@#$%^&*]+$/, "Неверный пароль. Допускаются буквы и цифры")
         .min(3, "Неверный пароль. Допускается минимум 3 символа")
         .max(60, "Неверный пароль. Допускается максимум 60 символов"),
     role: yup
-        .number()
-        .required("Заполните роль"),
-
-    __v: yup
         .string()
-        .optional()
-        .transform(() => undefined),
+        // .required("Заполните роль"),
 })
 
 const ProductSchema = yup.object().shape({
-    _id: yup
-        .string()
-        .optional()
-        .transform(() => undefined),
     title: yup
         .string()
         .required("Заполните заголовок")
@@ -60,7 +48,7 @@ const ProductSchema = yup.object().shape({
         .required("Заполните цену")
         .min(3, "Неверная цена. Допускается минимум 3 символа")
         .max(1000000000, "Неверная цена. Допускается максимум 1000000000"),
-    image_url: yup
+    image: yup
         .string()
         .required("Заполните url картинки"),
     count: yup
@@ -69,25 +57,16 @@ const ProductSchema = yup.object().shape({
         .min(1, "Неверное количество. Допускается минимум 1 символ")
         .max(5000, "Неверное количество. Допускается максимум 5000"),
     category: yup
-        .number()
+        .string()
         .required("Заполните категорию"),
     discount: yup
         .number()
         .required("Заполните скидку")
         .min(1, "Неверная скидка. Допускается минимум 1 символа")
         .max(100, "Неверная скидка. Допускается максимум 100"),
-    __v: yup
-        .string()
-        .optional()
-        .transform(() => undefined),
-
 })
 
 const CategorySchema = yup.object().shape({
-    _id: yup
-        .string()
-        .optional()
-        .transform(() => undefined),
     title: yup
         .string()
         .required("Заполните заголовок")
@@ -99,118 +78,126 @@ const CategorySchema = yup.object().shape({
         .required("Заполните имя")
         .min(3, "Неверное имя. Допускается минимум 3 символ")
         .max(15, "Неверное имя. Допускается максимум 15 символа"),
-    __v: yup
-        .string()
-        .optional()
-        .transform(() => undefined),
 })
 
-const ModalAdminEntityContainer = ({ className, type }) => {
-    const activeEditableContent = useSelector(selectorActiveEditableContent)
-    const [method, setMethod] = useState(null)
-    const [loading, setLoading] = useState(false)
+const ModalAdminDataContainer = ({ className }) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    useEffect(() => {
-        if (activeEditableContent.name || activeEditableContent.title) {
-            setMethod("PUT")
-        } else {
-            setMethod("POST")
-        }
-    }, [])
+    const adminDataModal = useSelector(selectorAdminDataModal)
+    const methodSaveModalAdminData = useSelector(selectorMethodSaveModalAdminData)
+    const adminDataType = useSelector(selectorAdminDataType)
 
     const getValidationSchema = () => {
-        if (type === "users") return UserSchema
-        if (type === "products") return ProductSchema
-        if (type === "categories") return CategorySchema
+        if (adminDataType === "users") return UserSchema
+        if (adminDataType === "products") return ProductSchema
+        if (adminDataType === "categories") return CategorySchema
         return yup.object().shape({}) // Схема по умолчанию
     }
 
     const validationSchema = getValidationSchema()
 
-    const { register,
+    const {
+        register,
         handleSubmit,
         formState: { errors } } = useForm({
-            defaultValues: activeEditableContent,
+            defaultValues: adminDataModal,
             resolver: yupResolver(validationSchema)
         })
 
-    const dispatch = useDispatch()
-
     const handleClickCancel = () => {
-        dispatch(actionShowModalAdmin(false))
+        dispatch(actionAdminDataModal(""))
+        dispatch(actionMethodSaveModalAdminData(""))
+        dispatch(actionShowModalAdminData(false))
     }
 
-    const handleClickFetch = async (data) => {
-
-        setLoading(true)
-
-        if (method == "POST") {
-            await postAdminData(type, data).then(loaded => {
+    const handleClickSave = (data) => {
+        if (methodSaveModalAdminData == "create") {
+            fetch(`http://localhost:3000/admin/${adminDataType}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            }).then(loaded => loaded.json()).then(loaded => {
                 const { error, data } = loaded
-                dispatch(actionAdminData(data))
-            }
-            ).finally(() => setLoading(false))
-        } else if (method == "PUT") {
-            await putAdminData(type, { ...data, _id: activeEditableContent._id }).then(loaded => {
+                if (error) {
+                    dispatch(actionGlobalError(error))
+                    navigate("/errors")
+                }
+
+                dispatch(actionAdminData(data[adminDataType]))
+                dispatch(actionNotificationMessage(data.notification))
+                dispatch(actionShowModalAdminData(false))
+            })
+
+
+
+        } else if (methodSaveModalAdminData == "edit") {
+            fetch(`http://localhost:3000/admin/${adminDataType}/${data.id}`, {
+                method: "PUT",
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            }).then(loaded => loaded.json()).then(loaded => {
                 const { error, data } = loaded
-                dispatch(actionAdminData(data))
-            }).finally(() => setLoading(false))
+                if (error) {
+                    dispatch(actionGlobalError(error))
+                    navigate("/errors")
+                }
+
+                dispatch(actionAdminData(data[adminDataType]))
+                dispatch(actionNotificationMessage(data.notification))
+                dispatch(actionShowModalAdminData(false))
+            })
         }
 
-        dispatch(actionShowModalAdmin(false))
     }
 
     return (
         <div className={className}>
-            {loading ? <Loader /> :
-                <form className="modal" onSubmit={handleSubmit(handleClickFetch)}>
-                    <h2>{type}</h2>
-                    <div className="items">
-                        {Object.keys(activeEditableContent).map((keys, index) => (
-                            <div className="block-label-input" key={index}>
-                                {keys == "role"
-                                    ?
-                                    <>
-                                        <label>{keys}</label>
-                                        <select {...register("role")}>
-                                            <option value="0">Admin</option>
-                                            <option value="1">Moderator</option>
-                                            <option value="2">Guest</option>
-                                        </select>
-                                    </>
-                                    : keys == "category" ? <>
-                                        <label>{keys}</label>
-                                        <select {...register("category")}>
-                                            <option value="69ee4ec7ecbf13178cad6a16">Одежда</option>
-                                            <option value="69ee52e82c30ec2a57cdee76">Электроника</option>
-                                            <option value="69ee530d2c30ec2a57cdee77">Недвижимость</option>
-                                            <option value="69ee531a2c30ec2a57cdee78">Авто</option>
-                                        </select>
-                                    </> : keys == "_id" || keys == "createdAt" || keys == "updatedAt" ? <>
-                                        <label>{keys}</label>
-                                        <input disabled type="text" {...register(keys)} />
-                                    </> : keys == "__v" ? <>
-                                    </> : <>
-                                        <label>{keys}</label>
-                                        <input type="text" {...register(keys)} />
-                                    </>}
-                                {errors[keys] && <ErrorMessage errorMessage={errors[keys].message} />}
-                            </div>
+            <form className="modal" onSubmit={handleSubmit(handleClickSave)}>
+                <h2>{adminDataType}</h2>
+                <div className="items">
+                    {Object.keys(adminDataModal).map((keys, index) => (
 
-                        ))}
-                    </div>
+                        <div className="block-key" key={index}>
+                            <label>{keys}</label>
+                            {keys == "id" ?
+                                <input type="text" disabled="disabled" {...register(keys)} /> :
+                                keys == "role" ?
+                                    <select {...register("role")}>
+                                        <option value="6a11dfe26980095835871fec">Admin</option>
+                                        <option value="6a11e891e9e39217562455c8">Moderator</option>
+                                        <option value="6a11e899e9e39217562455c9">User</option>
+                                    </select> :
+                                    keys == "category" ? <select {...register("category")}>
+                                        <option value="6a11e0276980095835871fed">Одежда</option>
+                                        <option value="6a11e86ce9e39217562455c6">Электроника</option>
+                                        <option value="6a11e874e9e39217562455c7">Авто</option>
+                                    </select> :
+                                    <input type="text" {...register(keys)} />}
+                            {errors[keys] && <ErrorMessage errorMessage={errors[keys].message} />}
+                        </div>
 
-                    <div className="block-btn">
-                        <button type="button" onClick={handleClickCancel}>Отмена</button>
-                        <button type="submit">Сохранить</button>
-                    </div>
-                </form>
-            }
+
+                    ))}
+                </div>
+
+                <div className="block-btn">
+                    <button type="button" onClick={handleClickCancel}>Отмена</button>
+                    <button type="submit">Сохранить</button>
+                </div>
+            </form>
         </div>
     )
 }
 
-export const ModalAdminEntity = styled(ModalAdminEntityContainer)`
+export const ModalAdminData = styled(ModalAdminDataContainer)`
     position: fixed;
     width: 100%;
     height: 100vh;
@@ -267,5 +254,12 @@ export const ModalAdminEntity = styled(ModalAdminEntityContainer)`
         display: flex;
         gap: 20px;
         // justify-content: space-between;
+    }
+
+    .block-key {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
     }
 `

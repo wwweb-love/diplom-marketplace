@@ -1,0 +1,1 @@
+export const selectorMethodSaveModalAdminData = (state) => state.admin.methodSaveModalAdminData

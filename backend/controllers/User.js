@@ -13,19 +13,18 @@ const getUser = async (id) => {
 }
 
 const createUser = async (name, login, password, role) => {
-    const user = await UserModel.create({ name, login, password, role })
+    if (!password) throw new Error("Password is empty")
+
+    const passwordHash = await bcrypt.hash(password, 10)
+
+    const user = await UserModel.create({ name, login, password: passwordHash, role })
     const users = await getUsers()
-    // const token = generate({ id: user.id })
 
     return { user, users }
 }
 
-const updateUser = async (id, name, login, password, role) => {
-    if (password) {
-        password = await bcrypt.hash(password, 10)
-    }
-
-    const user = await UserModel.findByIdAndUpdate({_id: id}, { name, login, password, role })
+const updateUser = async (id, name, login, role) => {
+    const user = await UserModel.findByIdAndUpdate({_id: id}, { name, login, role })
     const users = await getUsers()
     return { user, users }
 }

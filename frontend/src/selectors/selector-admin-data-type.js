@@ -1,0 +1,1 @@
+export const selectorAdminDataType = (state) => state.admin.adminDataType

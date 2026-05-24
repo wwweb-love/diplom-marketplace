@@ -1,41 +1,48 @@
 import styled from "styled-components"
-import { useState, useEffect } from "react"
-import { Loader, Search, ModalAdminEntity, AdminData } from "../../components"
+import { Loader, Search, AdminData, Notification, ModalAdminData } from "../../components"
+import { useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { actionAdminData, actionGlobalError } from "../../actions"
-import { selectorAdminData, selectorShowModalAdmin } from "../../selectors"
+import { actionAdminData, actionAdminDataType, actionGlobalError } from "../../actions"
 import { useNavigate } from "react-router"
-import { useFetchData } from "../../hooks"
-import { getAdminData } from "../../api"
+import { selectorAdminDataType, selectorNotificationMessage, selectorShowModalAdminData } from "../../selectors"
 
 const AdminContainer = ({ className }) => {
 
-    const [activeSection, setActiveSection] = useState("users")
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const showModalAdmin = useSelector(selectorShowModalAdmin)
-    const { fetchData, isLoading } = useFetchData()
+    const notificationMessage = useSelector(selectorNotificationMessage)
+    const adminDataType = useSelector(selectorAdminDataType)
+    const showModalAdminData = useSelector(selectorShowModalAdminData)
 
     useEffect(() => {
-        fetchData(getAdminData, actionGlobalError, actionAdminData, [activeSection])
+        fetch(`http://localhost:3000/admin/${adminDataType}`).then(loaded => loaded.json()).then(loaded => {
+            const { error, data } = loaded
 
-    }, [activeSection])
+            if (error) {
+                dispatch(actionGlobalError(error))
+                navigate("/errors")
+            }
+
+
+            dispatch(actionAdminData(data))
+        })
+    }, [adminDataType])
+
 
     return (
         <div className={className}>
-
-            <Search />
-
             <div className="section-data">
-                <button onClick={() => setActiveSection("users")} className={activeSection == "users" ? "btn-active link-section" : "link-section"}>Пользователи</button>
-                <button onClick={() => setActiveSection("products")} className={activeSection == "products" ? "btn-active link-section" : "link-section"}>Продукты</button>
-                <button onClick={() => setActiveSection("categories")} className={activeSection == "categories" ? "btn-active link-section" : "link-section"}>Категории</button>
+                <button className={adminDataType == "users" ? "btn-active link-section" : "link-section"} onClick={() => dispatch(actionAdminDataType("users"))}>Пользователи</button>
+                <button className={adminDataType == "products" ? "btn-active link-section" : "link-section"} onClick={() => dispatch(actionAdminDataType("products"))}>Продукты</button>
+                <button className={adminDataType == "categories" ? "btn-active link-section" : "link-section"} onClick={() => dispatch(actionAdminDataType("categories"))}>Категории</button>
             </div>
 
-            {isLoading ? <Loader /> : <AdminData type={activeSection} />}
+            <AdminData />
 
-            {showModalAdmin && <ModalAdminEntity type={activeSection} />}
+            {showModalAdminData && <ModalAdminData />}
+            {notificationMessage && <Notification >{notificationMessage}</Notification>}
 
         </div>
     )
