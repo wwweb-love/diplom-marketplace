@@ -1,1 +1,1 @@
-export const selectorGlobalError = (state) => state.products.globalError
+export const selectorGlobalError = (state) => state.all.globalError

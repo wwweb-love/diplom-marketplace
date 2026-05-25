@@ -29,6 +29,16 @@ const updateUser = async (id, name, login, role) => {
     return { user, users }
 }
 
+const updateUserPassword = async (id, password) => {
+    if (!password) throw new Error("Password is empty")
+
+    const passwordHash = await bcrypt.hash(password, 10)
+
+    const user = await UserModel.findByIdAndUpdate({_id: id}, { password: passwordHash })
+    const users = await getUsers()
+    return { user, users }
+}
+
 const deleteUser = async (id) => {
     const user = await UserModel.findByIdAndDelete({ _id: id })
     const users = await getUsers()
@@ -62,4 +72,4 @@ const registration = async (name, login, password) => {
     return { user, token }
 }
 
-module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, authorize, registration }
+module.exports = { getUsers, getUser, createUser, updateUser, updateUserPassword, deleteUser, authorize, registration }

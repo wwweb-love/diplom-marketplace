@@ -17,14 +17,14 @@ const AdminContainer = ({ className }) => {
     const showModalAdminData = useSelector(selectorShowModalAdminData)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/admin/${adminDataType}`).then(loaded => loaded.json()).then(loaded => {
+        fetch(`http://localhost:3000/admin/${adminDataType}`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
             const { error, data } = loaded
-
+            console.log(error)
             if (error) {
+                console.log(error)
                 dispatch(actionGlobalError(error))
                 navigate("/errors")
             }
-
 
             dispatch(actionAdminData(data))
         })

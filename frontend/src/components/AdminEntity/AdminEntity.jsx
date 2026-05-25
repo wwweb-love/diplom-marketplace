@@ -17,18 +17,21 @@ const AdminEntityContainer = ({ className, data, index }) => {
 
     const adminDataType = useSelector(selectorAdminDataType)
 
+    const handleClickEditPassword = (id) => {
+        dispatch(actionMethodSaveModalAdminData("edit-user-pass"))
+        dispatch(actionAdminDataModal({ id: id, password: "" }))
+        dispatch(actionShowModalAdminData(true))
+    }
+
     const handleClickEdit = (id) => {
-
         dispatch(actionMethodSaveModalAdminData("edit"))
-
-        fetch(`http://localhost:3000/admin/${adminDataType}/${id}`).then(loaded => loaded.json()).then(loaded => {
+        fetch(`http://localhost:3000/admin/${adminDataType}/${id}`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
             const { error, data } = loaded
-            
             if (error) {
                 dispatch(actionGlobalError(error))
                 navigate("/errors")
             }
-            
+
             dispatch(actionAdminDataModal(data))
             dispatch(actionShowModalAdminData(true))
         })
@@ -58,8 +61,13 @@ const AdminEntityContainer = ({ className, data, index }) => {
             <p className="index">{index + 1}</p>
 
             {Object.keys(data).map((keyData, index) => <div key={index} className="data-key">
-                <p className="data-key-title">{keyData}</p>
-                <p className="data-key-value">{data[keyData]}</p>
+                {keyData == "password" ? <>
+                    <p className="data-key-title">{keyData}</p>
+                    <button onClick={() => handleClickEditPassword(data.id)} className="data-key-btn" >Изменить пароль</button>
+                </> : <>
+                    <p className="data-key-title">{keyData}</p>
+                    <p className="data-key-value">{data[keyData]}</p>
+                </>}
             </div>)}
             <div>
                 <EditSVG className="svg-edit" onClick={() => handleClickEdit(data.id)} />
@@ -103,6 +111,7 @@ export const AdminEntity = styled(AdminEntityContainer)`
         display: flex;
         flex-direction: column;
         align-items: space-between;
+        gap: 5px;
     }
 
     .data-key-title {
@@ -113,5 +122,10 @@ export const AdminEntity = styled(AdminEntityContainer)`
 
     .data-key-value {
         padding-left: 15px;
+    }
+
+    .data-key-btn {
+        width: 100%;
+        padding: 10px 0px;
     }
 `
