@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
 })
 
 // logout
-router.post("/logout", (req, res) => {
+router.post("/logout", authenticated, (req, res) => {
     try {
         res.cookie("token", "", { httpOnly: true })
         .send({error: null, data: null})

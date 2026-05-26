@@ -53,7 +53,6 @@ const LoginContainer = ({ className }) => {
 
             body: JSON.stringify(data)
         }).then(loaded => loaded.json()).then(loaded => {
-            console.log(loaded)
             const { error, data } = loaded
 
             if (error) {

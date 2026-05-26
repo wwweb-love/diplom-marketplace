@@ -102,7 +102,6 @@ const ModalAdminDataContainer = ({ className }) => {
     }
 
     const handleClickSave = (data) => {
-        console.log("frontend", data)
         if (methodSaveModalAdminData == "create") {
             fetch(`http://localhost:3000/admin/${adminDataType}`, {
                 method: "POST",

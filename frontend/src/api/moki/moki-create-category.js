@@ -10,5 +10,5 @@ export const mokiCreateCategory = () => (
             name: "Одежда"
         })
 
-    }).then(loaded => loaded.json()).then(loaded => console.log(loaded))
+    }).then(loaded => loaded.json())
 )

@@ -1,6 +1,6 @@
 export const actionProduct = (product) => {
     return {
-        type: "CREATE_PRODUCT",
+        type: "SET_PRODUCT",
         payload: product
     }
 } 

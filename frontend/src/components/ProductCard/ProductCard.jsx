@@ -1,6 +1,12 @@
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router"
 import styled from "styled-components"
+import { actionGlobalError, actionProduct } from "../../actions"
 
 const ProductCardContainer = ({ className, product }) => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     return (
         <div className={className}>
             <img className="image" src={product.image} alt="image" />
@@ -11,7 +17,7 @@ const ProductCardContainer = ({ className, product }) => {
                     <p>Стоимость: {product.price}</p>
                 </div>
             </div>
-            <button className="btn-open-card">Открыть карточку</button>
+            <button className="btn-open-card" onClick={() => navigate(`/product/${product.id}`)}>Открыть карточку</button>
         </div>
     )
 }

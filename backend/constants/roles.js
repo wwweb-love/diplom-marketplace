@@ -1,6 +1,6 @@
 module.exports = {
-    ADMIN: "6a11b5609b52b34bedc07d1a",
-    MODERATOR: "6a11b56b9b52b34bedc07d1b",
-    USER: "6a11b57a9b52b34bedc07d1c",
-    GUEST: "6a11b7fdd890ba831d27a7bb"
+    ADMIN: "6a11dfe26980095835871fec",
+    MODERATOR: "6a11e891e9e39217562455c8",
+    USER: "6a11e899e9e39217562455c9",
+    GUEST: "6a11e8a3e9e39217562455ca"
 }

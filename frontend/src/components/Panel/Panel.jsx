@@ -6,7 +6,7 @@ import LogoutSVG from "../../assets/svg/logout.svg?react"
 import { useNavigate } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import { selectorUser } from "../../selectors"
-import { actionUser } from "../../actions"
+import { actionGlobalError, actionUser } from "../../actions"
 
 const PanelContainer = ({ className }) => {
     const dispatch = useDispatch()
@@ -25,6 +25,15 @@ const PanelContainer = ({ className }) => {
         }).then(loaded => loaded.json()).then(loaded => dispatch(actionUser("")))
     }
 
+    const handleClickBasket = () => {
+        if (user) {
+            navigate(`/basket/user/${user.id}`)
+        } else {
+            dispatch(actionGlobalError("Пользователь на авторизован. Авторизуйтесь!"))
+            navigate("/errors")
+        }
+    }
+
     return (
         <div className={className}>
             {user ? <div className="block-logout">
@@ -35,7 +44,7 @@ const PanelContainer = ({ className }) => {
                     <p className="user-name">Гость</p>
                     <ButtonPanel onClick={() => navigate("/login")} icon={<LoginSVG />}>Войти</ButtonPanel>
                 </div>}
-            <ButtonPanel icon={<BasketSVG />}>Корзина</ButtonPanel>
+            <ButtonPanel onClick={handleClickBasket} icon={<BasketSVG />}>Корзина</ButtonPanel>
         </div>
     )
 }

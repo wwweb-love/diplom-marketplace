@@ -1,6 +1,12 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
+
+// middleware
 const authenticated = require("../middlewares/authenticated")
+const hasRole = require("../middlewares/hasRole")
+
+// constants
+const ROLES = require("../constants/roles")
 
 // controllers
 const { getUsers, getUser, createUser, updateUser, updateUserPassword, deleteUser } = require("../controllers/User")
@@ -29,7 +35,7 @@ const { sanitizerAdminCategoryNotification } = require("../sanitizers/admin/cate
 // ---------------------------------------------USERS---------------------------------------------
 // Краткий список пользователей для показа
 // Возвращает список пользователей для просмотра админ панели
-router.get("/users", authenticated, async (req, res) => {
+router.get("/users", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const usersController = await getUsers()
         const usersSanitizer = await sanitizerAdminUsers(usersController)
@@ -41,11 +47,10 @@ router.get("/users", authenticated, async (req, res) => {
 
 // Полная информация о выбранном пользователе
 // Возвращает информацию о пользователе для редактирования
-router.get("/users/:id", authenticated, async (req, res) => {
+router.get("/users/:id", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const { id } = req.params
         const userController = await getUser(id)
-        console.log(userController)
         const userSanitizer = await sanitizerAdminUserEdit(userController)
         res.send({ error: null, data: userSanitizer })
     } catch (error) {
@@ -55,7 +60,7 @@ router.get("/users/:id", authenticated, async (req, res) => {
 
 // Создание пользователя с данными
 // Возвращает созданного пользователя и новый список пользователей
-router.post("/users", authenticated, async (req, res) => {
+router.post("/users", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { name, login, password, role } = req.body
         const { user, users } = await createUser(name, login, password, role)
@@ -69,7 +74,7 @@ router.post("/users", authenticated, async (req, res) => {
 
 // Полное обновление пользоавтеля
 // Возвращает обновленного пользоавтеля и новый список пользователей
-router.put("/users/:id", authenticated, async (req, res) => {
+router.put("/users/:id", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { name, login, role } = req.body
@@ -85,7 +90,7 @@ router.put("/users/:id", authenticated, async (req, res) => {
 
 // Изменение пароля отдельным запросом
 // Возвращает обновленного пользоавтеля и новый список пользователей
-router.put("/users/:id/pass", authenticated, async (req, res) => {
+router.put("/users/:id/pass", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { password } = req.body
@@ -100,7 +105,7 @@ router.put("/users/:id/pass", authenticated, async (req, res) => {
 
 // Удаление пользователя
 // Возвращает удаленного пользователя и новый список пользователей
-router.delete("/users/:id", authenticated, async (req, res) => {
+router.delete("/users/:id", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { user, users } = await deleteUser(id)
@@ -116,7 +121,7 @@ router.delete("/users/:id", authenticated, async (req, res) => {
 
 // Краткий список ролей для показа
 // Возвращает список ролей для просмотра админ панели
-router.get("/roles", authenticated, async (req, res) => {
+router.get("/roles", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const rolesController = await getRoles()
         const rolesSanitizer = await sanitizerAdminRoles(rolesController)
@@ -128,7 +133,7 @@ router.get("/roles", authenticated, async (req, res) => {
 
 // Полная информация о выбранной роли
 // Возвращает информацию о роли для редактирования
-router.get("/roles/:id", authenticated, async (req, res) => {
+router.get("/roles/:id", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const { id } = req.params
         const roleController = await getRole(id)
@@ -141,7 +146,7 @@ router.get("/roles/:id", authenticated, async (req, res) => {
 
 // Создание роли с данными
 // Возвращает созданную роль и новый список ролей
-router.post("/roles", authenticated, async (req, res) => {
+router.post("/roles", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { title, name } = req.body
         const { role, roles } = await createRole(title, name)
@@ -155,7 +160,7 @@ router.post("/roles", authenticated, async (req, res) => {
 
 // Полное обновление роли
 // Возвращает обновленную роль и новый список ролей
-router.put("/roles/:id", authenticated, async (req, res) => {
+router.put("/roles/:id", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { title, name } = req.body
@@ -171,7 +176,7 @@ router.put("/roles/:id", authenticated, async (req, res) => {
 
 // Удаление роли
 // Возвращает удаленную роль и новый список ролей
-router.delete("/roles/:id", authenticated, async (req, res) => {
+router.delete("/roles/:id", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { role, roles } = await deleteRole(id)
@@ -188,7 +193,7 @@ router.delete("/roles/:id", authenticated, async (req, res) => {
 
 // Краткий список продуктов для показа
 // Возвращает список продуктов для просмотра админ панели
-router.get("/products", authenticated, async (req, res) => {
+router.get("/products", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const productsController = await getProducts()
         const prodcuctsSanitizer = await sanitizerAdminProducts(productsController)
@@ -200,7 +205,7 @@ router.get("/products", authenticated, async (req, res) => {
 
 // Полная информация о выбранном продукте
 // Возвращает информацию о продукте для редактирования
-router.get("/products/:id", authenticated, async (req, res) => {
+router.get("/products/:id", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const { id } = req.params
         const productController = await getProduct(id)
@@ -213,7 +218,7 @@ router.get("/products/:id", authenticated, async (req, res) => {
 
 // Создание продукта с данными
 // Возвращает созданный продукт и новый список продуктов
-router.post("/products", authenticated, async (req, res) => {
+router.post("/products", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { title, price, discount, image, count, category } = req.body
         const { product, products } = await createProduct(title, price, discount, image, count, category)
@@ -227,7 +232,7 @@ router.post("/products", authenticated, async (req, res) => {
 
 // Полное обновление продукта
 // Возвращает обновленный продукт и новый список продуктов
-router.put("/products/:id", authenticated, async (req, res) => {
+router.put("/products/:id", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { title, price, discount, image, count, category } = req.body
@@ -243,7 +248,7 @@ router.put("/products/:id", authenticated, async (req, res) => {
 
 // Удаление продукта
 // Возвращает удаленный продукт и новый список продуктов
-router.delete("/products/:id", authenticated, async (req, res) => {
+router.delete("/products/:id", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { id } = req.params
         const { product, products } = await deleteProduct(id)
@@ -260,7 +265,7 @@ router.delete("/products/:id", authenticated, async (req, res) => {
 
 // Краткий список категорий для показа
 // Возвращает список категорий для просмотра админ панели
-router.get("/categories", authenticated, async (req, res) => {
+router.get("/categories", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const categoriesController = await getCategories()
         const categoriesSanitizer = await sanitizerAdminCategories(categoriesController)
@@ -272,7 +277,7 @@ router.get("/categories", authenticated, async (req, res) => {
 
 // Полная информация о выбранной категории
 // Возвращает информацию о категории для редактирования
-router.get("/categories/:id", authenticated, async (req, res) => {
+router.get("/categories/:id", authenticated, hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
     try {
         const { id } = req.params
         const categoryController = await getCategory(id)
@@ -285,7 +290,7 @@ router.get("/categories/:id", authenticated, async (req, res) => {
 
 // Создание категории с данными
 // Возвращает созданную категорию и новый список продуктов
-router.post("/categories", authenticated, async (req, res) => {
+router.post("/categories", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { title, name } = req.body
         const { category, categories } = await createCategory(title, name)
@@ -299,7 +304,7 @@ router.post("/categories", authenticated, async (req, res) => {
 
 // Полное обновление категории
 // Возвращает обновленную категорию и новый список категорий
-router.put("/categories/:nameCategory", authenticated, async (req, res) => {
+router.put("/categories/:nameCategory", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { nameCategory } = req.params
         const id = CATEGORIES[nameCategory]
@@ -315,7 +320,7 @@ router.put("/categories/:nameCategory", authenticated, async (req, res) => {
 
 // Удаление категории
 // Возвращает удаленную категорию и новый список категорий
-router.delete("/categories/:nameCategory", authenticated, async (req, res) => {
+router.delete("/categories/:nameCategory", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     try {
         const { nameCategory } = req.params
         const id = CATEGORIES[nameCategory]

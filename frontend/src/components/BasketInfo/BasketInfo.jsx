@@ -1,25 +1,15 @@
 import styled from "styled-components"
-import { selectPriceToBasket, getDiscount } from "../../utils"
-import { useEffect } from "react"
 
-const BasketInfoContainer = ({ className, products }) => {
-    const { priceResult, priceDiscountResult } = selectPriceToBasket(products)
-    const discount = getDiscount(priceResult, priceDiscountResult) 
-
-
-    const handleClickPrice = () => {
-        
-    }
-
+const BasketInfoContainer = ({ className }) => {
     return (
         <div className={className}>
             <div className="basket-result">
-                <p>Итого: {priceResult}</p>
-                <p>Скидка: {products.length ? discount : 0}%</p>
-                <p>Итоговая сумма: {priceDiscountResult}</p>
+                <p>Итого: Цена</p>
+                <p>Скидка: Скидка%</p>
+                <p>Итоговая сумма: Цена - Скидка</p>
             </div>
 
-            <button onClick={handleClickPrice} className="btn-order">Оформить заказ</button>
+            <button className="btn-order">Оформить заказ</button>
         </div>
     )
 }

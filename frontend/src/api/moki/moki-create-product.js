@@ -12,5 +12,5 @@ export const mokiCreateProduct = () => (
             categoryId: 3,
             discount: 20
         })
-    }).then(loaded => loaded.json()).then(loaded => console.log(loaded))
+    }).then(loaded => loaded.json())
 )
