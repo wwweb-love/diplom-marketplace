@@ -1,6 +1,6 @@
 export const actionBasket = (basket) => {
     return {
-        type: "CREATE_BASKET",
+        type: "SET_BASKET",
         payload: basket
     }
 } 

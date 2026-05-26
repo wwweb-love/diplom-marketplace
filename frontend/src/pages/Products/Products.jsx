@@ -24,7 +24,6 @@ const ProductsContainer = ({ className }) => {
     const page = useSelector(selectorPage)
     const pageLimit = useSelector(selectorPageLimit)
 
-    console.log("Render Products", products, countProducts, textSearch, selectedCategory, page, pageLimit)
 
     useEffect(() => {
         getProducts(textSearch, selectedCategory, selectedSort, page, pageLimit).then(loaded => {

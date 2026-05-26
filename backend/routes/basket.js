@@ -2,24 +2,25 @@ const express = require('express')
 const router = express.Router({ mergeParams: true })
 
 // middlewares
+const authenticated = require("../middlewares/authenticated")
 
 // controllers
-const { getBasket, createBasket, addProductOnBasket } = require("../controllers/Basket")
+const { getBasket, createBasket, addProductOnBasket, deleteProductOnBasket, putSelectedCountProductOnBasket } = require("../controllers/Basket")
 
 // sanitizers
+const { sanitizerBasket } = require('../sanitizers/basket/sanitizer-basket')
+const { sanitizerBasketOnProducts } = require("../sanitizers/product/sanitizer-basket-on-products")
 
 // Get Basket on User
-router.get("/user/:id", (req, res) => {
+router.get("/", authenticated ,async (req, res) => {
     try {
-        const { id } = req.params
+        const id = req.user.id
+        const basketController = await getBasket(id)
+        const basketSanitizer = sanitizerBasket(basketController)
 
-        const basketController = getBasket(id)
-        // const basketSanitizer = 
-        
-        
-
-        res.send({ error: null, data: basketController })
+        res.send({ error: null, data: basketSanitizer })
     } catch(error) {
+
         res.send({ error: error.message, data: null })
     }
 })
@@ -40,15 +41,49 @@ router.post("/", (req, res) => {
 // add Product on Basket
 router.post("/products", async (req, res) => {
     try {
-        const { userId, product, selected_count } = req.body
-        console.log(userId, product, selected_count)
-
-        const basket = await addProductOnBasket(userId, product, selected_count)
-        res.send({ error: error.message, data: basket })
+        const { userId, productId, selected_count } = req.body
+        
+        const basketController = await addProductOnBasket(userId, productId, selected_count)
+        const basketSanitizer = sanitizerBasket(basketController)
+        res.send({ error: null, data: basketSanitizer })
     } catch(error) {
         res.send({ error: error.message, data: null })
     }
 })
 
+// delete Product on Basket
+router.delete("/products", async (req, res) => {
+    try {
+        const { userId, productId } = req.body
+        
+        const basketController = await deleteProductOnBasket(userId, productId)
+        const basketSanitizer = sanitizerBasket(basketController)
+        res.send({ error: null, data: basketSanitizer })
+    } catch(error) {
+        res.send({ error: error.message, data: null })
+    }
+})
+
+
+router.put("/selected_count", authenticated, async (req, res) => {
+    try {
+        const userId = req.user.id
+        const { productId, selected_count } = req.body
+        const basketController = await putSelectedCountProductOnBasket(userId, productId, selected_count)
+        const basketSanitizer = sanitizerBasket(basketController)
+        res.send({ error: null, data: basketSanitizer })
+    } catch (error) {
+        res.send({ error: error.message, data: null })
+    }
+})
+
+router.delete("/products", authenticated, async (req, res) => {
+    try {
+
+        res.send({ error: null, data: null })
+    } catch (error) {
+        res.send({ error: error.message, data: null })
+    }
+})
 
 module.exports = router

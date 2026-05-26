@@ -13,6 +13,7 @@ const { getUsers, getUser, createUser, updateUser, updateUserPassword, deleteUse
 const { getRoles, getRole, createRole, updateRole, deleteRole } = require("../controllers/Role")
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require("../controllers/Product")
 const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require("../controllers/Category")
+const { createBasket } = require("../controllers/Basket")
 
 // sanitizers
 const { sanitizerAdminUsers } = require("../sanitizers/admin/users/sanitizer-admin-users")
@@ -66,6 +67,9 @@ router.post("/users", authenticated, hasRole([ROLES.ADMIN]), async (req, res) =>
         const { user, users } = await createUser(name, login, password, role)
         const userSanitizer = sanitizerAdminUserNotification(user)
         const usersSanitizer = sanitizerAdminUsers(users)
+
+        const basket = await createBasket(user.id)
+
         res.send({ error: null, data: { user: userSanitizer, users: usersSanitizer, notification: `Пользователь ${user.name} добавлен` } })
     } catch (error) {
         res.send({ error: error.message, data: null })

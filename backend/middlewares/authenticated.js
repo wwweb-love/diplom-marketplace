@@ -3,7 +3,7 @@ const UserModal = require("../models/User")
 
 module.exports = async function(req, res, next) {
     if (!req.cookies.token) {
-        res.send({error: "Authenticated coockie not found"})
+        res.send({error: "Пользователь не авторизован. Авторизуйтесь!"})
         return
     }
 

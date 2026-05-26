@@ -5,7 +5,7 @@ import * as yup from "yup"
 import { AuthRegister, ErrorMessage } from "../../components"
 import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux"
-import { actionUser } from "../../actions"
+import { actionBasket, actionUser } from "../../actions"
 import { useState } from "react"
 
 const RegisterSchema = yup.object().shape({
@@ -62,7 +62,8 @@ const RegistrationContainer = ({ className }) => {
             if (error) {
                 setErrorServer(error)
             } else {
-                dispatch(actionUser(data))
+                dispatch(actionUser(data.user))
+                dispatch(actionBasket(data.basket))
                 navigate("/")
             }
         })

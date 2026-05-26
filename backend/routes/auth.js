@@ -6,6 +6,7 @@ const authenticated = require("../middlewares/authenticated")
 
 // controllers
 const { authorize, registration } = require("../controllers/User")
+const { createBasket } = require('../controllers/Basket')
 
 // sanitizers
 const { sanitizerUser } = require("../sanitizers/all/auth/sanitizer-user")
@@ -38,9 +39,10 @@ router.post("/register", async (req, res) => {
     try {
         const { name, login , password } = req.body
         const { token, user } = await registration(name, login, password)
+        const basket = await createBasket(user.id)
 
         res.cookie("token", token, { httpOnly: true })
-        .send({error: null, data: sanitizerUser(user)})
+        .send({error: null, data: {user: sanitizerUser(user), basket} })
     } catch (error) {
         res.send({ error: error.message, data: null })
     }

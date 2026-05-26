@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import { Loader, Search, SectionPathToProduct } from "../../components"
 import { useDispatch, useSelector } from "react-redux"
-import { selectorProduct } from "../../selectors"
+import { selectorBasket, selectorBasketProducts, selectorProduct, selectorUser } from "../../selectors"
 import { useEffect } from "react"
-import { actionGlobalError, actionProduct } from "../../actions"
+import { actionBasket, actionBasketProducts, actionGlobalError, actionProduct } from "../../actions"
 import { useNavigate, useParams } from "react-router"
 
 const ProductContainer = ({ className }) => {
@@ -11,7 +11,9 @@ const ProductContainer = ({ className }) => {
     const navigate = useNavigate()
 
     const { id } = useParams()
+    const user = useSelector(selectorUser)
     const product = useSelector(selectorProduct)
+    const basket = useSelector(selectorBasket)
 
     useEffect(() => {
         fetch(`http://localhost:3000/product/${id}`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
@@ -20,13 +22,57 @@ const ProductContainer = ({ className }) => {
             if (error) {
                 dispatch(actionGlobalError(error))
                 navigate("/errors")
+            } else {
+                dispatch(actionProduct(data.product))
+                dispatch(actionBasket(data.basket))
             }
-
-            dispatch(actionProduct(data))
         })
     }, [])
 
-    console.log("PRODUCT", product)
+    const handleClickAddProductOnBasket = (productId) => {
+        fetch(`http://localhost:3000/basket/products`, {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify({
+                userId: user.id,
+                productId: productId,
+                selected_count: 1
+            })
+        }).then(loaded => loaded.json()).then(loaded => {
+            const { error, data } = loaded
+
+            if (error) {
+                dispatch(actionGlobalError(error))
+                navigate("/errors")
+            }
+            dispatch(actionBasket(data))
+        })
+    }
+
+    const handleClickDeleteProductOnBasket = (productId) => {
+        fetch(`http://localhost:3000/basket/products`, {
+            method: "DELETE",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify({
+                userId: user.id,
+                productId: productId
+            })
+        }).then(loaded => loaded.json()).then(loaded => {
+            const { error, data } = loaded
+
+            if (error) {
+                dispatch(actionGlobalError(error))
+                navigate("/errors")
+            }
+            dispatch(actionBasket(data))
+        })
+    }
 
     return (
         <div className={className}>
@@ -45,7 +91,11 @@ const ProductContainer = ({ className }) => {
                         </div>
                     </div>
                     <div className="block-btn-id">
-                        <button className="btn-buy-product">Добавить в корзину</button>
+                        {basket && basket.products.some(basketProduct => basketProduct.product.id == product.id) ?
+                            <button className="btn-buy-product" onClick={() => handleClickDeleteProductOnBasket(product.id)}>Удалить с корзины</button>
+                            :
+                            <button className="btn-buy-product" onClick={() => handleClickAddProductOnBasket(product.id)}>Добавить в корзину</button>}
+
                         <p className="id-product">{product.id}</p>
                     </div>
                 </div>

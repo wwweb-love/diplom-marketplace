@@ -1,7 +1,6 @@
 const initialStateProduct = {
     selectedProduct: {},
     statusProductOnBasket: false,
-    basket: {},
     globalError: "",
     user: null,
     adminData: null,
@@ -29,13 +28,6 @@ export const all = (state = initialStateProduct, action) => {
             }
         }
 
-
-        case "CREATE_BASKET": {
-            return {
-                ...state,
-                basket: action.payload
-            }
-        }
 
 
         case "SET_USER": {
