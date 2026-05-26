@@ -1,6 +1,5 @@
 const initialStateBasket = {
-    basket: "",
-    basketProducts: []
+    basket: "" // данные корзины с сервера
 }
 
 export const basket = (state = initialStateBasket, action) => {
@@ -11,13 +10,6 @@ export const basket = (state = initialStateBasket, action) => {
             return {
                 ...state,
                 basket: action.payload
-            }
-        }
-
-        case "SET_BASKET_PRODUCTS": {
-            return {
-                ...state,
-                basketProducts: action.payload
             }
         }
 

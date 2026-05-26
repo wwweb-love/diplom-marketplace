@@ -1,15 +1,15 @@
-const initialStateProduct = {
-    categories: [],
-    selectedCategory: "",
-    products: [],
-    countProducts: 0,
-    selectedSort: "",
-    textSearch: "",
-    page: 1,
-    pageLimit: 5,
+const initialStateProducts = {
+    categories: [], // все категории с БД
+    selectedCategory: "", // выьранная категория для фильтра
+    products: [], // все продукты с БД
+    countProducts: 0, // количество продуктов с применением фильтра
+    selectedSort: "", // выбранный метод сортировки 
+    textSearch: "", // поисковое слово 
+    page: 1, // страница
+    pageLimit: 5, // лимит продуктов на страницу
 }
 
-export const products = (state = initialStateProduct, action) => {
+export const products = (state = initialStateProducts, action) => {
     switch (action.type) {
         // cases
         case "SET_CATEGORIES": {

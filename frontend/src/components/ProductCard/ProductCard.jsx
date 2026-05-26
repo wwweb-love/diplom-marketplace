@@ -1,11 +1,9 @@
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router"
+// package
 import styled from "styled-components"
-import { actionGlobalError, actionProduct } from "../../actions"
+import { useNavigate } from "react-router"
 
 const ProductCardContainer = ({ className, product }) => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
     return (
         <div className={className}>

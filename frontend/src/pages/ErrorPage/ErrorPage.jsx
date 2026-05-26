@@ -1,9 +1,13 @@
-import { useSelector } from "react-redux"
+// package
 import styled from "styled-components"
-import { selectorGlobalError } from "../../selectors"
-import SadErrorsSVG from "../../assets/svg/sad-errors.svg?react"
-import { ErrorMessage } from "../../components"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
+// selectors
+import { selectorGlobalError } from "../../selectors"
+// svg
+import SadErrorsSVG from "../../assets/svg/sad-errors.svg?react"
+// components
+import { ErrorMessage } from "../../components"
 
 const ErrorPageContainer = ({ className }) => {
     const navigate = useNavigate()

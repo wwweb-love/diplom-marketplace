@@ -40,7 +40,7 @@ const ProductsContainer = ({ className }) => {
     return (
         <div className={className}>
             <Search />
-
+            <h2>Найдено {countProducts} товаров</h2>
             <div className="block-category-products">
                 <SectionCategory />
                 <div className="block-sorted-products">

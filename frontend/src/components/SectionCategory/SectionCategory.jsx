@@ -1,12 +1,17 @@
+// package
 import styled from "styled-components"
-import { CategoryCard } from "../CategoryCard/CategoryCard"
-import { Button, Loader } from "../../components"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router"
+// components
+import { CategoryCard } from "../CategoryCard/CategoryCard"
+import { Button } from "../Button/Button"
+import { Loader } from "../Loader/Loader"
+// actions
 import { actionCategories, actionGlobalError, actionPage, actionSelectedCategory, actionSelectedSort, actionTextSearch } from "../../actions"
+// selectors
 import { selectorCategories, selectorSelectedCategory } from "../../selectors"
 import { getCategories } from "../../api"
-import { useNavigate } from "react-router"
 
 const SectionCategoryContainer = ({ className }) => {
     const dispatch = useDispatch()

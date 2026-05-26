@@ -1,7 +1,11 @@
-import { useDispatch, useSelector } from "react-redux"
+// package
 import styled from "styled-components"
+import { useDispatch, useSelector } from "react-redux"
+// selectors
 import { selectorCountProducts, selectorPage, selectorPageLimit } from "../../selectors"
+// components
 import { Loader } from "../Loader/Loader"
+// actions
 import { actionPage } from "../../actions"
 
 

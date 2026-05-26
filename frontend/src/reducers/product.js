@@ -1,5 +1,5 @@
 const initialStateProduct = {
-    product: ""
+    product: "" // данные продукта с сервера
 }
 
 export const product = (state = initialStateProduct, action) => {

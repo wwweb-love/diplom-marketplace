@@ -1,7 +1,11 @@
+// package
 import styled from "styled-components"
-import SearchSVG from "../../assets/svg/search.svg?react"
 import { useDispatch, useSelector } from "react-redux"
+// svg
+import SearchSVG from "../../assets/svg/search.svg?react"
+// selectors
 import { selectorTextSearch } from "../../selectors"
+// actions
 import { actionPage, actionTextSearch } from "../../actions"
 
 const SearchContainer = ({ className }) => {

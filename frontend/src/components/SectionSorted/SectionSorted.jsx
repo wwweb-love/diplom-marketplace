@@ -1,7 +1,11 @@
+// package
 import styled from "styled-components"
-import { SORT } from "../../constants"
 import { useDispatch, useSelector } from "react-redux"
+// constants
+import { SORT } from "../../constants"
+// selectors
 import { selectorSelectedSort } from "../../selectors"
+// actions
 import { actionSelectedSort } from "../../actions"
 
 const SectionSortedContainer = ({ className }) => {
