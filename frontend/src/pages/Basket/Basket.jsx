@@ -1,9 +1,13 @@
+// package
 import styled from "styled-components"
-import { Loader, BasketCard, BasketInfo } from "../../components"
 import { useEffect } from "react"
-import { useNavigate, useParams } from "react-router"
+import { useNavigate } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
+// components
+import { Loader, BasketCard, BasketInfo } from "../../components"
+// selectors
 import { selectorBasket } from "../../selectors"
+// actions
 import { actionBasket, actionGlobalError } from "../../actions"
 
 const BasketContainer = ({ className }) => {

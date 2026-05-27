@@ -1,10 +1,14 @@
+// package
 import styled from "styled-components"
-import { Loader, Search, SectionPathToProduct } from "../../components"
 import { useDispatch, useSelector } from "react-redux"
-import { selectorBasket, selectorBasketProducts, selectorProduct, selectorUser } from "../../selectors"
 import { useEffect } from "react"
-import { actionBasket, actionBasketProducts, actionGlobalError, actionProduct } from "../../actions"
 import { useNavigate, useParams } from "react-router"
+// components
+import { Loader } from "../../components"
+// selectors
+import { selectorBasket, selectorProduct, selectorUser } from "../../selectors"
+// actions
+import { actionBasket, actionGlobalError, actionProduct } from "../../actions"
 
 const ProductContainer = ({ className }) => {
     const dispatch = useDispatch()

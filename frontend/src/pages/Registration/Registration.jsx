@@ -1,12 +1,15 @@
+// package
 import styled from "styled-components"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { AuthRegister, ErrorMessage } from "../../components"
 import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux"
-import { actionBasket, actionUser } from "../../actions"
 import { useState } from "react"
+// components
+import { ErrorMessage } from "../../components"
+// actions
+import { actionBasket, actionUser } from "../../actions"
 
 const RegisterSchema = yup.object().shape({
     name: yup

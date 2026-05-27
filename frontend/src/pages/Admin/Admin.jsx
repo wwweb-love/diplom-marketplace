@@ -1,10 +1,13 @@
+// package
 import styled from "styled-components"
-import { Loader, Search, AdminData, Notification, ModalAdminData } from "../../components"
-import { useState } from "react"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { actionAdminData, actionAdminDataType, actionGlobalError } from "../../actions"
 import { useNavigate } from "react-router"
+// components
+import { AdminData, Notification, ModalAdminData } from "../../components"
+// actions
+import { actionAdminData, actionAdminDataType, actionGlobalError } from "../../actions"
+// selectors
 import { selectorAdminDataType, selectorNotificationMessage, selectorShowModalAdminData } from "../../selectors"
 
 const AdminContainer = ({ className }) => {

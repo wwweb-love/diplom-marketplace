@@ -1,7 +1,8 @@
+// package
+import styled from "styled-components"
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components"
-import { selectorNotificationMessage } from "../../selectors";
+// actions
 import { actionNotificationMessage } from "../../actions";
 
 const NotificationContainer = ({ className, children }) => {

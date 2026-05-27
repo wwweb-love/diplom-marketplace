@@ -1,16 +1,16 @@
+// package
 import styled from "styled-components"
-import { Button } from "../Button/Button"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
-import { postAdminData, postProduct, putAdminData } from "../../api"
-import { selectorActiveEditableContent, selectorAdminData, selectorAdminDataModal, selectorAdminDataType, selectorMethodSaveModalAdminData } from "../../selectors"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage"
-import { Loader } from "../Loader/Loader"
-import { actionAdminData, actionAdminDataModal, actionGlobalError, actionMethodSaveModalAdminData, actionNotificationMessage, actionShowModalAdminData } from "../../actions"
 import { useNavigate } from "react-router"
+// components
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage"
+// selectors
+import { selectorAdminDataModal, selectorAdminDataType, selectorMethodSaveModalAdminData } from "../../selectors"
+// actions
+import { actionAdminData, actionAdminDataModal, actionGlobalError, actionMethodSaveModalAdminData, actionNotificationMessage, actionShowModalAdminData } from "../../actions"
 
 const UserSchema = yup.object().shape({
     name: yup

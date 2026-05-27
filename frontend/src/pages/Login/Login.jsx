@@ -1,11 +1,14 @@
+// package
 import styled from "styled-components"
+import { useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { ErrorMessage } from "../../components"
-import { useNavigate } from "react-router"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
+// components
+import { ErrorMessage } from "../../components"
+// actions
 import { actionUser } from "../../actions"
 
 const AuthSchema = yup.object().shape({
@@ -42,8 +45,6 @@ const LoginContainer = ({ className }) => {
     })
 
     const onSubmit = async (data) => {
-        let user = ""
-
         fetch("http://localhost:3000/auth/login", {
             method: "POST",
             credentials: 'include',
@@ -63,9 +64,6 @@ const LoginContainer = ({ className }) => {
             }
         })
     }
-
-
-
 
     return (
         <div className={className}>

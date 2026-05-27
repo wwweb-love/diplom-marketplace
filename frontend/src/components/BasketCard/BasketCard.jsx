@@ -1,15 +1,18 @@
+// package
 import styled from "styled-components"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router"
+// svg
 import CloseSVG from "../../assets/svg/close.svg?react"
 import PlusSVG from "../../assets/svg/plus.svg?react"
 import MinusSVG from "../../assets/svg/minus.svg?react"
 import DeleteSVG from "../../assets/svg/delete.svg?react"
-import { useDispatch, useSelector } from "react-redux"
-import { selectorBasket, selectorUser } from "../../selectors"
-import { actionBasket, actionGlobalError } from "../../actions"
-import { useFetchData } from "../../hooks"
-import { postBasket, deleteProductOnBasket, putSelectedCountProductOnBasket } from "../../api"
+// components
 import { Loader } from "../Loader/Loader"
-import { useNavigate } from "react-router"
+// selectors
+import { selectorUser } from "../../selectors"
+// actions
+import { actionBasket, actionGlobalError } from "../../actions"
 
 const BasketCardContainer = ({ className, product }) => {
     const dispatch = useDispatch()

@@ -1,9 +1,14 @@
-import './App.css'
-import { Basket, Products, Product, Login, Registration, Admin, NotFound, ErrorPage } from './pages'
-import { Routes, Route } from "react-router-dom"
-import { Header } from './components'
+// package
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { Routes, Route } from "react-router-dom"
+// css
+import './App.css'
+// pages
+import { Basket, Products, Product, Login, Registration, Admin, NotFound, ErrorPage } from './pages'
+// components
+import { Header } from './components'
+// actions
 import { actionUser } from './actions'
 
 function App() {

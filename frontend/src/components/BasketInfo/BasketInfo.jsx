@@ -1,11 +1,11 @@
+// package
 import styled from "styled-components"
+// utils
 import { selectPriceToBasket, getDiscount } from "../../utils"
-import { useEffect } from "react"
 
 const BasketInfoContainer = ({ className, products }) => {
     const { priceResult, priceDiscountResult } = selectPriceToBasket(products)
     const discount = getDiscount(priceResult, priceDiscountResult) 
-
 
     const handleClickPrice = () => {
         
