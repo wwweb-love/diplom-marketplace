@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 // components
-import { CategoryCard } from "../CategoryCard/CategoryCard"
 import { Button } from "../Button/Button"
 import { Loader } from "../Loader/Loader"
 // actions

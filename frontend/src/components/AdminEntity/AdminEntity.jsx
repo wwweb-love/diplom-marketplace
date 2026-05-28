@@ -1,21 +1,27 @@
+// package
 import styled from "styled-components"
-import { Button } from "../Button/Button"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router"
+import { useState } from "react"
+// svg
 import EditSVG from "../../assets/svg/edit.svg?react"
 import DeleteSVG from "../../assets/svg/delete.svg?react"
-import { useEffect, useState } from "react"
-import { sanitaizeProduct } from "../../utils"
-import IdSvg from "../../assets/svg/id.svg?react"
-import { useDispatch, useSelector } from "react-redux"
-import { selectorAdminDataType, selectorShowModalAdminData } from "../../selectors"
-import { actionAdminData, actionAdminDataModal, actionAdminUsersData, actionGlobalError, actionMethodSaveModalAdminData, actionNotificationMessage, actionShowModalAdminData } from "../../actions"
-import { deleteAdminData } from "../../api"
-import { useNavigate } from "react-router"
+// selectors
+import { selectorAdminDataType } from "../../selectors"
+// actions
+import { actionAdminData, actionAdminDataModal, actionGlobalError, actionMethodSaveModalAdminData, actionNotificationMessage, actionShowModalAdminData } from "../../actions"
+// components
+import { Loader } from "../Loader/Loader"
+// api
+import { deleteAdminDataId, getAdminDataId } from "../../api"
 
 const AdminEntityContainer = ({ className, data, index }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const adminDataType = useSelector(selectorAdminDataType)
+
+    const [isLoadedSaveAdminData, setIsLoadedSaveAdminData] = useState(false)
 
     const handleClickEditPassword = (id) => {
         dispatch(actionMethodSaveModalAdminData("edit-user-pass"))
@@ -24,26 +30,25 @@ const AdminEntityContainer = ({ className, data, index }) => {
     }
 
     const handleClickEdit = (id) => {
+        setIsLoadedSaveAdminData(true)
         dispatch(actionMethodSaveModalAdminData("edit"))
-        fetch(`http://localhost:3000/admin/${adminDataType}/${id}`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
-            const { error, data } = loaded
-            if (error) {
-                dispatch(actionGlobalError(error))
-                navigate("/errors")
-            }
+        getAdminDataId(adminDataType, id)
+            .then(loaded => {
+                const { error, data } = loaded
+                if (error) {
+                    dispatch(actionGlobalError(error))
+                    navigate("/errors")
+                }
 
-            dispatch(actionAdminDataModal(data))
-            dispatch(actionShowModalAdminData(true))
-        })
-
+                dispatch(actionAdminDataModal(data))
+                dispatch(actionShowModalAdminData(true))
+            })
+            .finally(() => setIsLoadedSaveAdminData(false))
     }
 
     const handleClickDelete = (id) => {
-        fetch(`http://localhost:3000/admin/${adminDataType}/${id}`, {
-            credentials: 'include',
-            method: "DELETE"
-        })
-            .then(loaded => loaded.json()).then(loaded => {
+        setIsLoadedSaveAdminData(true)
+        deleteAdminDataId(adminDataType, id).then(loaded => {
                 const { error, data } = loaded
 
                 if (error) {
@@ -54,6 +59,7 @@ const AdminEntityContainer = ({ className, data, index }) => {
                 dispatch(actionAdminData(data[adminDataType]))
                 dispatch(actionNotificationMessage(data.notification))
             })
+            .finally(() => setIsLoadedSaveAdminData(false))
     }
 
     return (
@@ -69,10 +75,10 @@ const AdminEntityContainer = ({ className, data, index }) => {
                     <p className="data-key-value">{data[keyData]}</p>
                 </>}
             </div>)}
-            <div>
+            {isLoadedSaveAdminData ? <Loader /> : <div>
                 <EditSVG className="svg-edit" onClick={() => handleClickEdit(data.id)} />
                 <DeleteSVG className="svg-edit" onClick={() => handleClickDelete(data.id)} />
-            </div>
+            </div>}
         </div>
     )
 }

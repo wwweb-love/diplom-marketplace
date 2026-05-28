@@ -1,9 +1,13 @@
+// package
 import styled from "styled-components"
-import { Button } from "../Button/Button"
 import { useDispatch, useSelector } from "react-redux"
+// components
+import { Button } from "../Button/Button"
+import { AdminEntity } from "../AdminEntity/AdminEntity"
+// selectors
 import { selectorAdminData, selectorAdminDataType } from "../../selectors"
-import { AdminEntity } from "../../components/AdminEntity/AdminEntity"
-import { actionAdminData, actionAdminDataModal, actionMethodSaveModalAdminData, actionShowModalAdminData } from "../../actions"
+// actions
+import { actionAdminDataModal, actionMethodSaveModalAdminData, actionShowModalAdminData } from "../../actions"
 
 const AdminDataContainer = ({ className }) => {
 

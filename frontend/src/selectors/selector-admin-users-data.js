@@ -1,1 +1,0 @@
-export const selectorAdminUsersData = (state) => state.product.adminUsersData

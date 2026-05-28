@@ -1,10 +1,10 @@
 // package
 import styled from "styled-components"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 // components
-import { AdminData, Notification, ModalAdminData } from "../../components"
+import { AdminData, Notification, ModalAdminData, Loader } from "../../components"
 // actions
 import { actionAdminData, actionAdminDataType, actionGlobalError } from "../../actions"
 // selectors
@@ -21,8 +21,12 @@ const AdminContainer = ({ className }) => {
     const adminDataType = useSelector(selectorAdminDataType)
     const showModalAdminData = useSelector(selectorShowModalAdminData)
 
+    const [isLoadedAdminData, setIsLoadedAdminData] = useState(true)
+
     useEffect(() => {
-        getAdminData(adminDataType).then(loaded => loaded.json()).then(loaded => {
+        setIsLoadedAdminData(true)
+        getAdminData(adminDataType)
+        .then(loaded => {
             const { error, data } = loaded
             if (error) {
                 dispatch(actionGlobalError(error))
@@ -31,6 +35,7 @@ const AdminContainer = ({ className }) => {
 
             dispatch(actionAdminData(data))
         })
+        .finally(() => setIsLoadedAdminData(false))
     }, [adminDataType])
 
 
@@ -42,7 +47,7 @@ const AdminContainer = ({ className }) => {
                 <button className={adminDataType == "categories" ? "btn-active link-section" : "link-section"} onClick={() => dispatch(actionAdminDataType("categories"))}>Категории</button>
             </div>
 
-            <AdminData />
+            {isLoadedAdminData ? <Loader /> : <AdminData />}
 
             {showModalAdminData && <ModalAdminData />}
             {notificationMessage && <Notification >{notificationMessage}</Notification>}

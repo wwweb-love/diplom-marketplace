@@ -1,1 +1,0 @@
-export const selectorBasketProducts = (state) => state.basket.basketProducts
