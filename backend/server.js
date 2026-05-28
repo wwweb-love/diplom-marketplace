@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const express = require("express")
 const mongoose = require("mongoose")
 const chalk = require("chalk")
@@ -19,7 +21,7 @@ server.use(cookieParser())
 
 server.use('/', routes)
 
-mongoose.connect(MONGOOSE_CONNECT).then(() => {
+mongoose.connect(process.env.DB_CONNECTION_STRING).then(() => {
     console.log(chalk.bgBlue(" Mongoose connected... "))
     server.listen(PORT, () => {
         console.log(chalk.bgBlue(" Server started... "))
