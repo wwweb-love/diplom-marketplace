@@ -1,5 +1,5 @@
-export const putAdminData = (activeSection, data) => (
-    fetch(`http://localhost:3000/admin/${activeSection}`, {
+export const putEditAdminData = (adminDataType, data) => (
+    fetch(`http://localhost:3000/admin/${adminDataType}/${data.id}`, {
         method: "PUT",
         credentials: 'include',
         headers: {

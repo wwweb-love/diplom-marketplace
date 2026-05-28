@@ -9,6 +9,8 @@ import { AdminData, Notification, ModalAdminData } from "../../components"
 import { actionAdminData, actionAdminDataType, actionGlobalError } from "../../actions"
 // selectors
 import { selectorAdminDataType, selectorNotificationMessage, selectorShowModalAdminData } from "../../selectors"
+// api
+import { getAdminData } from "../../api"
 
 const AdminContainer = ({ className }) => {
 
@@ -20,7 +22,7 @@ const AdminContainer = ({ className }) => {
     const showModalAdminData = useSelector(selectorShowModalAdminData)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/admin/${adminDataType}`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
+        getAdminData(adminDataType).then(loaded => loaded.json()).then(loaded => {
             const { error, data } = loaded
             if (error) {
                 dispatch(actionGlobalError(error))

@@ -1,6 +1,6 @@
 // package
 import styled from "styled-components"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 // components
@@ -9,6 +9,8 @@ import { Loader, BasketCard, BasketInfo } from "../../components"
 import { selectorBasket } from "../../selectors"
 // actions
 import { actionBasket, actionGlobalError } from "../../actions"
+// api
+import { getBasket } from "../../api"
 
 const BasketContainer = ({ className }) => {
     const dispatch = useDispatch()
@@ -16,8 +18,12 @@ const BasketContainer = ({ className }) => {
 
     const basket = useSelector(selectorBasket)
 
+    const [isLoadedBasket, setIsLoadedBasket] = useState(true)
+
     useEffect(() => {
-        fetch(`http://localhost:3000/basket`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
+        setIsLoadedBasket(true)
+        getBasket()
+        .then(loaded => {
             const { error, data } = loaded
 
             if (error) {
@@ -27,12 +33,15 @@ const BasketContainer = ({ className }) => {
 
             dispatch(actionBasket(data))
         })
+        .finally(() => setIsLoadedBasket(false))
     }, [])
+
+    console.log(basket)
 
     return (
         <div className={className}>
             <h2>Корзина</h2>
-            {!basket ? <Loader /> :
+            {isLoadedBasket ? <Loader /> :
                 <div className="block-products-info">
                     <div className="products">
                         {basket.products.length ? 

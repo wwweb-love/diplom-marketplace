@@ -7,36 +7,20 @@ import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux"
 import { useState } from "react"
 // components
-import { ErrorMessage } from "../../components"
+import { ErrorMessage, Loader } from "../../components"
 // actions
 import { actionBasket, actionUser } from "../../actions"
-
-const RegisterSchema = yup.object().shape({
-    name: yup
-        .string()
-        .required("Заполните имя")
-        .matches(/^\w+$/, "Неверное имя. Допускаются буквы и цифры")
-        .min(3, "Неверное имя. Допускается минимум 3 символа")
-        .max(20, "Неверное имя. Допускается максимум 20 символов"),
-    login: yup
-        .string()
-        .required("Заполните логин")
-        .matches(/^\w+$/, "Неверный логин. Допускаются буквы и цифры")
-        .min(3, "Неверный логин. Допускается минимум 3 символа")
-        .max(20, "Неверный логин. Допускается максимум 20 символов"),
-    password: yup
-        .string()
-        .required("Заполните пароль")
-        .matches(/^\w+$/, "Неверный пароль. Допускаются буквы и цифры")
-        .min(3, "Неверный пароль. Допускается минимум 3 символа")
-        .max(20, "Неверный пароль. Допускается максимум 20 символов")
-})
+// constants
+import { RegistrationSchema } from "../../constants"
+// api
+import { postRegistration } from "../../api"
 
 const RegistrationContainer = ({ className }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [errorServer, setErrorServer] = useState(null)
+    const [isLoadedPostRegistration, setIsLoadedPostRegistration] = useState(false)
 
     const {
         register,
@@ -48,18 +32,13 @@ const RegistrationContainer = ({ className }) => {
             login: "",
             password: ""
         },
-        resolver: yupResolver(RegisterSchema)
+        resolver: yupResolver(RegistrationSchema)
     })
 
     const onSubmit = async (data) => {
-        fetch("http://localhost:3000/auth/register", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify(data)
-        }).then(loaded => loaded.json()).then(loaded => {
+        setIsLoadedPostRegistration(true)
+        postRegistration(data)
+        .then(loaded => {
             const { error, data } = loaded
 
             if (error) {
@@ -70,6 +49,7 @@ const RegistrationContainer = ({ className }) => {
                 navigate("/")
             }
         })
+        .finally(() => setIsLoadedPostRegistration(false))
     }
 
     return (
@@ -95,11 +75,11 @@ const RegistrationContainer = ({ className }) => {
                     <input type="password" {...register("password")} />
                     {errors.password && <ErrorMessage errorMessage={errors.password.message} />}
                 </div>
-
-                <div className="block-action">
-                    <button type="submit">Зарегистрироваться</button>
-                    <p onClick={() => navigate(`/login`)} className="link-redirect">Авторизация</p>
-                </div>
+                {isLoadedPostRegistration ? <Loader /> :
+                    <div className="block-action">
+                        <button type="submit">Зарегистрироваться</button>
+                        <p onClick={() => navigate(`/login`)} className="link-redirect">Авторизация</p>
+                    </div>}
 
                 {errorServer && <ErrorMessage errorMessage={errorServer} />}
             </form>

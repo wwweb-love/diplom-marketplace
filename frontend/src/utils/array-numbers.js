@@ -1,0 +1,1 @@
+export const ArrayNumbers = (count) => [...Array(count).keys()]

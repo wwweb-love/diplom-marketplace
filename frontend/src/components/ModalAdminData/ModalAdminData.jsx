@@ -11,64 +11,13 @@ import { ErrorMessage } from "../ErrorMessage/ErrorMessage"
 import { selectorAdminDataModal, selectorAdminDataType, selectorMethodSaveModalAdminData } from "../../selectors"
 // actions
 import { actionAdminData, actionAdminDataModal, actionGlobalError, actionMethodSaveModalAdminData, actionNotificationMessage, actionShowModalAdminData } from "../../actions"
+import { UserSchema, ProductSchema, CategorySchema } from "../../constants"
+// utils
+import { getValidationSchema } from "../../utils/get-validation-schema"
+// api
+import { postCreateAdminData, putEditAdminData, putEditUserPassAdminData } from "../../api"
 
-const UserSchema = yup.object().shape({
-    name: yup
-        .string()
-        .matches(/^[a-zA-Zа-яА-ЯёЁ\s]+$/, "Неверное имя. Допускаются буквы")
-        .min(3, "Неверное имя. Допускается минимум 3 символа")
-        .max(20, "Неверное имя. Допускается максимум 20 символов"),
-    login: yup
-        .string()
-        .matches(/^[a-zA-Z0-9_]+$/, "Неверный логин. Допускаются буквы и цифры")
-        .min(3, "Неверный логин. Допускается минимум 3 символа")
-        .max(20, "Неверный логин. Допускается максимум 20 символов"),
-    password: yup
-        .string()
-        // .matches(/^[a-zA-Z0-9!@#$%^&*]+$/, "Неверный пароль. Допускаются буквы и цифры")
-        .min(3, "Неверный пароль. Допускается минимум 3 символа")
-        .max(60, "Неверный пароль. Допускается максимум 60 символов"),
-    role: yup
-        .string()
-})
 
-const ProductSchema = yup.object().shape({
-    title: yup
-        .string()
-        .matches(/^[a-zA-Zа-яА-ЯёЁ\s]+$/, "Неверный заголовок. Допускаются буквы")
-        .min(3, "Неверный заголовок. Допускается минимум 3 символа")
-        .max(50, "Неверный заголовок. Допускается максимум 50 символов"),
-    price: yup
-        .number()
-        .min(3, "Неверная цена. Допускается минимум 3 символа")
-        .max(1000000000, "Неверная цена. Допускается максимум 1000000000"),
-    image: yup
-        .string(),
-    count: yup
-        .number()
-        .min(1, "Неверное количество. Допускается минимум 1 символ")
-        .max(5000, "Неверное количество. Допускается максимум 5000"),
-    category: yup
-        .string(),
-    discount: yup
-        .number()
-        .min(1, "Неверная скидка. Допускается минимум 1 символа")
-        .max(100, "Неверная скидка. Допускается максимум 100"),
-})
-
-const CategorySchema = yup.object().shape({
-    title: yup
-        .string()
-        .required("Заполните заголовок")
-        .matches(/^[a-zA-Zа-яА-ЯёЁ\s]+$/, "Неверный заголовок. Допускаются буквы")
-        .min(3, "Неверный заголовок. Допускается минимум 3 символа")
-        .max(50, "Неверный заголовок. Допускается максимум 50 символов"),
-    name: yup
-        .string()
-        .required("Заполните имя")
-        .min(3, "Неверное имя. Допускается минимум 3 символ")
-        .max(15, "Неверное имя. Допускается максимум 15 символа"),
-})
 
 const ModalAdminDataContainer = ({ className }) => {
     const dispatch = useDispatch()
@@ -77,13 +26,6 @@ const ModalAdminDataContainer = ({ className }) => {
     const adminDataModal = useSelector(selectorAdminDataModal)
     const methodSaveModalAdminData = useSelector(selectorMethodSaveModalAdminData)
     const adminDataType = useSelector(selectorAdminDataType)
-
-    const getValidationSchema = () => {
-        if (adminDataType === "users") return UserSchema
-        if (adminDataType === "products") return ProductSchema
-        if (adminDataType === "categories") return CategorySchema
-        return yup.object().shape({}) // Схема по умолчанию
-    }
 
     const validationSchema = getValidationSchema()
 
@@ -103,14 +45,7 @@ const ModalAdminDataContainer = ({ className }) => {
 
     const handleClickSave = (data) => {
         if (methodSaveModalAdminData == "create") {
-            fetch(`http://localhost:3000/admin/${adminDataType}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                },
-                credentials: 'include',
-                body: JSON.stringify(data)
-            }).then(loaded => loaded.json()).then(loaded => {
+            postCreateAdminData(adminDataType, data).then(loaded => {
                 const { error, data } = loaded
                 if (error) {
                     dispatch(actionGlobalError(error))
@@ -125,15 +60,7 @@ const ModalAdminDataContainer = ({ className }) => {
 
 
         } else if (methodSaveModalAdminData == "edit") {
-            fetch(`http://localhost:3000/admin/${adminDataType}/${data.id}`, {
-                method: "PUT",
-                credentials: 'include',
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                },
-                credentials: 'include',
-                body: JSON.stringify(data)
-            }).then(loaded => loaded.json()).then(loaded => {
+            putEditAdminData(adminDataType, data).then(loaded => {
                 const { error, data } = loaded
                 if (error) {
                     dispatch(actionGlobalError(error))
@@ -145,15 +72,7 @@ const ModalAdminDataContainer = ({ className }) => {
                 dispatch(actionShowModalAdminData(false))
             })
         } else if (methodSaveModalAdminData == "edit-user-pass") {
-            fetch(`http://localhost:3000/admin/users/${data.id}/pass`, {
-                method: "PUT",
-                credentials: 'include',
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                },
-                credentials: 'include',
-                body: JSON.stringify(data)
-            }).then(loaded => loaded.json()).then(loaded => {
+            putEditUserPassAdminData(data).then(loaded => loaded.json()).then(loaded => {
                 const { error, data } = loaded
                 if (error) {
                     dispatch(actionGlobalError(error))

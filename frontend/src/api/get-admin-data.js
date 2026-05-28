@@ -1,3 +1,3 @@
-export const getAdminData = (activeSection) => (
-    fetch(`http://localhost:3000/admin/${activeSection}`, {credentials: 'include'}).then(loaded => loaded.json())
+export const getAdminData = (adminDataType) => (
+    fetch(`http://localhost:3000/admin/${adminDataType}`, { credentials: 'include' }).then(loaded => loaded.json())
 )

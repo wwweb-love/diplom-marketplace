@@ -7,6 +7,8 @@ import { selectorCountProducts, selectorPage, selectorPageLimit } from "../../se
 import { Loader } from "../Loader/Loader"
 // actions
 import { actionPage } from "../../actions"
+// utils
+import { ArrayNumbers } from "../../utils"
 
 
 const PaginationContainer = ({ className }) => {
@@ -19,20 +21,19 @@ const PaginationContainer = ({ className }) => {
 
     return (
         <div className={className}>
-            {!countProducts ? <Loader /> : 
             <div className="pagination-block">
-                {[...Array(countPage).keys()].map(index => {
+                {ArrayNumbers(countPage).map(index => {
                     const element = index + 1
                     return (
-                        <p 
-                        key={index}
-                        onClick={() => dispatch(actionPage(element))} 
-                        className={page == element ? "active page" : "page"}>
-                        {element}
+                        <p
+                            key={index}
+                            onClick={() => dispatch(actionPage(element))}
+                            className={page == element ? "active page" : "page"}>
+                            {element}
                         </p>
                     )
                 })}
-            </div>}
+            </div>
         </div>
     )
 }

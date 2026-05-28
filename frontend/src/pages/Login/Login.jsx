@@ -7,31 +7,22 @@ import * as yup from "yup"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 // components
-import { ErrorMessage } from "../../components"
+import { ErrorMessage, Loader } from "../../components"
 // actions
 import { actionUser } from "../../actions"
+// constants
+import { LoginSchema } from "../../constants"
+// api
+import { postLogin } from "../../api"
 
-const AuthSchema = yup.object().shape({
-    login: yup
-        .string()
-        .required("Заполните логин")
-        .matches(/^\w+$/, "Неверный логин. Допускаются буквы и цифры")
-        .min(3, "Неверный логин. Допускается минимум 3 символа")
-        .max(20, "Неверный логин. Допускается максимум 20 символов"),
-    password: yup
-        .string()
-        .required("Заполните пароль")
-        .matches(/^\w+$/, "Неверный пароль. Допускаются буквы и цифры")
-        .min(3, "Неверный пароль. Допускается минимум 3 символа")
-        .max(20, "Неверный пароль. Допускается максимум 20 символов")
-})
 
 const LoginContainer = ({ className }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [errorServer, setErrorServer] = useState(null)
-    
+    const [isLoadedPostLogin, setIsLoadedPostLogin] = useState(false)
+
     const {
         register,
         handleSubmit,
@@ -41,28 +32,23 @@ const LoginContainer = ({ className }) => {
             login: "",
             password: ""
         },
-        resolver: yupResolver(AuthSchema)
+        resolver: yupResolver(LoginSchema)
     })
 
     const onSubmit = async (data) => {
-        fetch("http://localhost:3000/auth/login", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
+        setIsLoadedPostLogin(true)
+        postLogin(data)
+            .then(loaded => {
+                const { error, data } = loaded
 
-            body: JSON.stringify(data)
-        }).then(loaded => loaded.json()).then(loaded => {
-            const { error, data } = loaded
-
-            if (error) {
-                setErrorServer(error)
-            } else {
-                dispatch(actionUser(data))
-                navigate("/")
-            }
-        })
+                if (error) {
+                    setErrorServer(error)
+                } else {
+                    dispatch(actionUser(data))
+                    navigate("/")
+                }
+            })
+            .finally(() => setIsLoadedPostLogin(false))
     }
 
     return (
@@ -82,11 +68,11 @@ const LoginContainer = ({ className }) => {
                     <input type="password" {...register("password")} />
                     {errors.password && <ErrorMessage errorMessage={errors.password.message} />}
                 </div>
-
-                <div className="block-action">
-                    <button type="submit">Войти</button>
-                    <p onClick={() => navigate(`/registration`)} className="link-redirect">Регистрация</p>
-                </div>
+                {isLoadedPostLogin ? <Loader /> :
+                    <div className="block-action">
+                        <button type="submit">Войти</button>
+                        <p onClick={() => navigate(`/registration`)} className="link-redirect">Регистрация</p>
+                    </div>}
 
                 {errorServer && <ErrorMessage errorMessage={errorServer} />}
             </form>
@@ -96,7 +82,7 @@ const LoginContainer = ({ className }) => {
 }
 
 export const Login = styled(LoginContainer)`
-        width: 100%;
+    width: 100%;
     height: 80vh;
     border-radius: 20px;
     display: flex;

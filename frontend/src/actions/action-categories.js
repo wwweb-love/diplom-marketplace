@@ -1,6 +1,6 @@
 export const actionCategories = (categories) => {
     return {
         type: "SET_CATEGORIES",
-        payload: categories
+        payload: [{ id: "", name: "Все категории"}, ...categories]
     }
 } 

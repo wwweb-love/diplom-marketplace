@@ -6,7 +6,7 @@ const initialStateProducts = {
     selectedSort: "", // выбранный метод сортировки 
     textSearch: "", // поисковое слово 
     page: 1, // страница
-    pageLimit: 5, // лимит продуктов на страницу
+    pageLimit: 10, // лимит продуктов на страницу
 }
 
 export const products = (state = initialStateProducts, action) => {

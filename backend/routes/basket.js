@@ -15,6 +15,7 @@ const { sanitizerBasketOnProducts } = require("../sanitizers/product/sanitizer-b
 router.get("/", authenticated ,async (req, res) => {
     try {
         const id = req.user.id
+        console.log(req.user)
         const basketController = await getBasket(id)
         const basketSanitizer = sanitizerBasket(basketController)
 

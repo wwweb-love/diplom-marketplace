@@ -1,7 +1,7 @@
 // package
 import styled from "styled-components"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 // components
 import { Loader } from "../../components"
@@ -9,18 +9,24 @@ import { Loader } from "../../components"
 import { selectorBasket, selectorProduct, selectorUser } from "../../selectors"
 // actions
 import { actionBasket, actionGlobalError, actionProduct } from "../../actions"
+// api
+import { deleteProductOnBasket, getProduct, postProductOnBasket } from "../../api"
 
 const ProductContainer = ({ className }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
     const { id } = useParams()
     const user = useSelector(selectorUser)
     const product = useSelector(selectorProduct)
     const basket = useSelector(selectorBasket)
+    
+    const [isLoadedProduct, setIsLoadedProduct] = useState(false)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/product/${id}`, { credentials: 'include' }).then(loaded => loaded.json()).then(loaded => {
+        setIsLoadedProduct(true)
+        getProduct(id)
+        .then(loaded => {
             const { error, data } = loaded
 
             if (error) {
@@ -31,21 +37,11 @@ const ProductContainer = ({ className }) => {
                 dispatch(actionBasket(data.basket))
             }
         })
+        .finally(() => setIsLoadedProduct(false))
     }, [])
 
     const handleClickAddProductOnBasket = (productId) => {
-        fetch(`http://localhost:3000/basket/products`, {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({
-                userId: user.id,
-                productId: productId,
-                selected_count: 1
-            })
-        }).then(loaded => loaded.json()).then(loaded => {
+        postProductOnBasket(user.id, productId).then(loaded => {
             const { error, data } = loaded
 
             if (error) {
@@ -57,17 +53,7 @@ const ProductContainer = ({ className }) => {
     }
 
     const handleClickDeleteProductOnBasket = (productId) => {
-        fetch(`http://localhost:3000/basket/products`, {
-            method: "DELETE",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({
-                userId: user.id,
-                productId: productId
-            })
-        }).then(loaded => loaded.json()).then(loaded => {
+        deleteProductOnBasket(user.id, productId).then(loaded => {
             const { error, data } = loaded
 
             if (error) {
@@ -80,7 +66,7 @@ const ProductContainer = ({ className }) => {
 
     return (
         <div className={className}>
-            {!product ? <Loader /> : <>
+            {isLoadedProduct ? <Loader /> : <>
                 <div className="path-to-product">Товары - {product.category}</div>
 
                 <div className="product">

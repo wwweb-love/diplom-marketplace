@@ -31,17 +31,19 @@ function App() {
     <>
       <div className='app'>
         <Header />
-        <Routes>
-          {/* pages */}
-          <Route path='/' element={<Products />} /> 
-          <Route path='/product/:id' element={<Product />} />
-          <Route path='/basket/user/:id' element={<Basket />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/registration' element={<Registration />} />
-          <Route path='/admin' element={<Admin />} />
-          <Route path='/errors' element={<ErrorPage />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+        <div className="pages">
+          <Routes>
+            {/* pages */}
+            <Route path='/' element={<Products />} />
+            <Route path='/product/:id' element={<Product />} />
+            <Route path='/basket/user/:id' element={<Basket />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/registration' element={<Registration />} />
+            <Route path='/admin' element={<Admin />} />
+            <Route path='/errors' element={<ErrorPage />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </>
   )

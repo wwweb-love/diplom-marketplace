@@ -1,6 +1,6 @@
 // package
 import styled from "styled-components"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 // components
@@ -24,17 +24,21 @@ const ProductsContainer = ({ className }) => {
     const page = useSelector(selectorPage)
     const pageLimit = useSelector(selectorPageLimit)
 
+    const [isLoadedProducts, setIsLoadedProducts] = useState(false)
 
     useEffect(() => {
-        getProducts(textSearch, selectedCategory, selectedSort, page, pageLimit).then(loaded => {
-            const { error, data } = loaded
-            if (error) {
-                dispatch(actionGlobalError(error))
-                navigate("/errors")
-            }
-            dispatch(actionProducts(data.products))
-            dispatch(actionCountProducts(data.count))
-        })
+        setIsLoadedProducts(true)
+        getProducts(textSearch, selectedCategory, selectedSort, page, pageLimit)
+            .then(loaded => {
+                const { error, data } = loaded
+                if (error) {
+                    dispatch(actionGlobalError(error))
+                    navigate("/errors")
+                }
+                dispatch(actionProducts(data.products))
+                dispatch(actionCountProducts(data.count))
+            })
+            .finally(() => setIsLoadedProducts(false))
     }, [textSearch, selectedCategory, selectedSort, page, pageLimit])
 
     return (
@@ -45,13 +49,17 @@ const ProductsContainer = ({ className }) => {
                 <SectionCategory />
                 <div className="block-sorted-products">
                     <SectionSorted />
-                    {!products.length ? <Loader /> :
-                        <div className="block-products">
-                            {products.map(product => <ProductCard key={product.id} product={product} />)}
-                        </div>}
+                    {isLoadedProducts ? <Loader /> :
+                        countProducts ? <>
+                            <div className="block-products">
+                                {products.map(product => <ProductCard key={product.id} product={product} />)}
+                            </div>
+                        </> : <h2>Товаров не найдено</h2>}
+
                 </div>
             </div>
-            <Pagination />
+
+            {!isLoadedProducts && <Pagination />}
         </div >
     )
 }

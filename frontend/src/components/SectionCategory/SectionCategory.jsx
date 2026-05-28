@@ -1,6 +1,6 @@
 // package
 import styled from "styled-components"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 // components
@@ -20,15 +20,20 @@ const SectionCategoryContainer = ({ className }) => {
     const categories = useSelector(selectorCategories)
     const selectedCategory = useSelector(selectorSelectedCategory)
 
+    const [isLoadedCategories, setIsloadedCategories] = useState(false)
+
     useEffect(() => {
-        getCategories().then(loaded => {
-            const { error, data } = loaded
-            if (error) {
-                dispatch(actionGlobalError(error))
-                navigate("/errors")
-            }
-            dispatch(actionCategories(data))
-        })
+        setIsloadedCategories(true)
+        getCategories()
+            .then(loaded => {
+                const { error, data } = loaded
+                if (error) {
+                    dispatch(actionGlobalError(error))
+                    navigate("/errors")
+                }
+                dispatch(actionCategories(data))
+            })
+            .finally(() => setIsloadedCategories(false))
     }, [])
 
     const handleCategoryChange = ({ target }) => {
@@ -46,10 +51,10 @@ const SectionCategoryContainer = ({ className }) => {
     return (
         <div className={className}>
             <h2>Категории</h2>
-            {!categories.length ? <Loader /> : 
-            <select className="block-categories" value={selectedCategory} onChange={handleCategoryChange} >
-                {[{ id: "", name: "Все категории"}, ...categories].map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
-            </select>}
+            {isLoadedCategories ? <Loader /> :
+                <select className="block-categories" value={selectedCategory} onChange={handleCategoryChange} >
+                    {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+                </select>}
             <Button onClick={handleResetFilter}>Сбросить фильтр</Button>
         </div>
     )

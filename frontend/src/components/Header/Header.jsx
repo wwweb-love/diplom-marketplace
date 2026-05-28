@@ -12,9 +12,12 @@ const HeaderContainer = ({ className }) => {
 }
 
 export const Header = styled(HeaderContainer)`
+    position: fixed;
+    z-index: 20;
     padding: 10px 20px;
     border-radius: 0 0 10px 10px; 
-    width: 100%;    
+    width: 70%;    
+    header: 65px;
     display: flex;
     justify-content: space-between;
     align-items: center;
