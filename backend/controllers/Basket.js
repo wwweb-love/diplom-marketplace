@@ -32,7 +32,6 @@ const deleteProductOnBasket = async (userId, productId) => {
 }
 
 const putSelectedCountProductOnBasket = async (userId, productId, selected_count) => {
-
     const basketUpdate = await BasketModel.updateOne(
         {
             user: userId,
@@ -42,7 +41,6 @@ const putSelectedCountProductOnBasket = async (userId, productId, selected_count
             $set: { 'products.$.selected_count': Number(selected_count) }
         }
     );
-
     const basket = await getBasket(userId)
     return basket
 }

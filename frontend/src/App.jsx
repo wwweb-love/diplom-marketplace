@@ -19,7 +19,6 @@ function App() {
   useEffect(() => {
     getUserMe()
       .then(loaded => {
-        console.log(loaded)
         const { error, data } = loaded
         if (error) {
           dispatch(actionUser(""))

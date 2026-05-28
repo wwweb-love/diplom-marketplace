@@ -24,7 +24,7 @@ const BasketCardContainer = ({ className, product }) => {
 
     const handleClickPlusCountProductOnBasket = (product) => {
 
-        putBasketSelectedCount(product.id, product.selected_count + 1).then(loaded => {
+        putBasketSelectedCount(product.product.id, product.selected_count + 1).then(loaded => {
             const { error, data } = loaded
             if (error) {
                 dispatch(actionGlobalError(error))
@@ -37,7 +37,7 @@ const BasketCardContainer = ({ className, product }) => {
 
     const handleClickMinusCountProductOnBasket = (product) => {
 
-        putBasketSelectedCount(product.id, product.selected_count - 1).then(loaded => {
+        putBasketSelectedCount(product.product.id, product.selected_count - 1).then(loaded => {
             const { error, data } = loaded
             if (error) {
                 dispatch(actionGlobalError(error))
@@ -49,9 +49,8 @@ const BasketCardContainer = ({ className, product }) => {
     }
 
     const handleClickDeleteProductOnBasket = (product) => {
-        deleteProductOnBasket(user.id, product.id).then(loaded => {
+        deleteProductOnBasket(user.id, product.product.id).then(loaded => {
             const { error, data } = loaded
-
             if (error) {
                 dispatch(actionGlobalError(error))
                 navigate("/errors")

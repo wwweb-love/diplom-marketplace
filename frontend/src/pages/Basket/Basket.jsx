@@ -36,8 +36,6 @@ const BasketContainer = ({ className }) => {
         .finally(() => setIsLoadedBasket(false))
     }, [])
 
-    console.log(basket)
-
     return (
         <div className={className}>
             <h2>Корзина</h2>
