@@ -14,6 +14,7 @@ const { sanitizerUser } = require("../sanitizers/all/auth/sanitizer-user")
 // авторизация
 router.get("/me", authenticated, async (req, res) => {
     try {
+        console.log(req.user)
         const user = sanitizerUser(req.user)
         res.send({ error: null, data: user })
     } catch(error) {

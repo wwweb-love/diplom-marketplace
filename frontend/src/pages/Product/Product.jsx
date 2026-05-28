@@ -15,29 +15,29 @@ import { deleteProductOnBasket, getProduct, postProductOnBasket } from "../../ap
 const ProductContainer = ({ className }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+
     const { id } = useParams()
     const user = useSelector(selectorUser)
     const product = useSelector(selectorProduct)
     const basket = useSelector(selectorBasket)
-    
+
     const [isLoadedProduct, setIsLoadedProduct] = useState(false)
 
     useEffect(() => {
         setIsLoadedProduct(true)
         getProduct(id)
-        .then(loaded => {
-            const { error, data } = loaded
+            .then(loaded => {
+                const { error, data } = loaded
 
-            if (error) {
-                dispatch(actionGlobalError(error))
-                navigate("/errors")
-            } else {
-                dispatch(actionProduct(data.product))
-                dispatch(actionBasket(data.basket))
-            }
-        })
-        .finally(() => setIsLoadedProduct(false))
+                if (error) {
+                    dispatch(actionGlobalError(error))
+                    navigate("/errors")
+                } else {
+                    dispatch(actionProduct(data.product))
+                    dispatch(actionBasket(data.basket))
+                }
+            })
+            .finally(() => setIsLoadedProduct(false))
     }, [])
 
     const handleClickAddProductOnBasket = (productId) => {
@@ -162,8 +162,5 @@ export const Product = styled(ProductContainer)`
 
     .btn-unbuy-product:hover {
         opacity: 0.5;
-    }
-
-    .id-product {
     }
 `

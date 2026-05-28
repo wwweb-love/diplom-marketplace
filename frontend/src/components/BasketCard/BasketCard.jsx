@@ -13,6 +13,8 @@ import { Loader } from "../Loader/Loader"
 import { selectorUser } from "../../selectors"
 // actions
 import { actionBasket, actionGlobalError } from "../../actions"
+// api
+import { deleteProductOnBasket, putBasketSelectedCount } from "../../api"
 
 const BasketCardContainer = ({ className, product }) => {
     const dispatch = useDispatch()
@@ -22,17 +24,7 @@ const BasketCardContainer = ({ className, product }) => {
 
     const handleClickPlusCountProductOnBasket = (product) => {
 
-        fetch(`http://localhost:3000/basket/selected_count`, {
-            method: "PUT",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({
-                productId: product.product.id,
-                selected_count: product.selected_count + 1
-            })
-        }).then(loaded => loaded.json()).then(loaded => {
+        putBasketSelectedCount(product.id, product.selected_count + 1).then(loaded => {
             const { error, data } = loaded
             if (error) {
                 dispatch(actionGlobalError(error))
@@ -45,17 +37,7 @@ const BasketCardContainer = ({ className, product }) => {
 
     const handleClickMinusCountProductOnBasket = (product) => {
 
-        fetch(`http://localhost:3000/basket/selected_count`, {
-            method: "PUT",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({
-                productId: product.product.id,
-                selected_count: product.selected_count - 1
-            })
-        }).then(loaded => loaded.json()).then(loaded => {
+        putBasketSelectedCount(product.id, product.selected_count - 1).then(loaded => {
             const { error, data } = loaded
             if (error) {
                 dispatch(actionGlobalError(error))
@@ -67,17 +49,7 @@ const BasketCardContainer = ({ className, product }) => {
     }
 
     const handleClickDeleteProductOnBasket = (product) => {
-        fetch(`http://localhost:3000/basket/products`, {
-            method: "DELETE",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({
-                userId: user.id,
-                productId: product.product.id
-            })
-        }).then(loaded => loaded.json()).then(loaded => {
+        deleteProductOnBasket(user.id, product.id).then(loaded => {
             const { error, data } = loaded
 
             if (error) {

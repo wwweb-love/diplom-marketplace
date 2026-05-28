@@ -1,12 +1,19 @@
+// package
 import styled from "styled-components"
-import { ButtonPanel } from "../ButtonPanel/ButtonPanel"
+import { useNavigate } from "react-router"
+import { useDispatch, useSelector } from "react-redux"
+// svg
 import LoginSVG from "../../assets/svg/login.svg?react"
 import BasketSVG from "../../assets/svg/basket.svg?react"
 import LogoutSVG from "../../assets/svg/logout.svg?react"
-import { useNavigate } from "react-router"
-import { useDispatch, useSelector } from "react-redux"
+// components
+import { ButtonPanel } from "../ButtonPanel/ButtonPanel"
+// selectors
 import { selectorUser } from "../../selectors"
+// actions
 import { actionGlobalError, actionUser } from "../../actions"
+// api
+import { postLogout } from "../../api"
 
 const PanelContainer = ({ className }) => {
     const dispatch = useDispatch()
@@ -15,14 +22,7 @@ const PanelContainer = ({ className }) => {
     const user = useSelector(selectorUser)
 
     const handleClickLogout = () => {
-        fetch("http://localhost:3000/auth/logout", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({})
-        }).then(loaded => loaded.json()).then(loaded => dispatch(actionUser("")))
+        postLogout().then(loaded => dispatch(actionUser("")))
     }
 
     const handleClickBasket = () => {

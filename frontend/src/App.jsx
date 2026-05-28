@@ -10,15 +10,16 @@ import { Basket, Products, Product, Login, Registration, Admin, NotFound, ErrorP
 import { Header } from './components'
 // actions
 import { actionUser } from './actions'
+import { getUserMe } from './api'
 
 function App() {
   const dispatch = useDispatch()
 
   // ручка /me при запуске приложения пробуем авторизоваться
   useEffect(() => {
-    fetch("http://localhost:3000/auth/me", { credentials: 'include' })
-      .then(loaded => loaded.json())
+    getUserMe()
       .then(loaded => {
+        console.log(loaded)
         const { error, data } = loaded
         if (error) {
           dispatch(actionUser(""))

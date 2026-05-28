@@ -1,5 +1,5 @@
-export const postLogout = (formData) => (
-    fetch("http://localhost:3000/logout", {
+export const postLogout = () => (
+    fetch("http://localhost:3000/auth/logout", {
         method: "POST",
         credentials: 'include',
         headers: {
