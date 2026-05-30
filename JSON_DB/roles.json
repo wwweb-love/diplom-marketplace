@@ -1,0 +1,12 @@
+[{
+  "name": "Администратор",
+  "title": "ADMIN"
+},
+{
+  "name": "Модератор",
+  "title": "MODERATOR"
+},
+{
+  "name": "Пользователь",
+  "title": "USER"
+}]

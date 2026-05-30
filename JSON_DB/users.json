@@ -1,0 +1,18 @@
+[{
+  "name": "admin",
+  "login": "admin",
+  "password": "$2b$10$2A5oiSb9L/3JlYy6Bgrp.eq6P/GppkJXq7mj10NSl/HyquqaTz1ju",
+  "role": "6a1b27e34cac0ba3570bd795"
+},
+{
+  "name": "moderator",
+  "login": "moderator",
+  "password": "$2b$10$Hpb3c1GtrmBnPt0Hcufu3OPM4LTAMLHmYleM7Guv8oVsJ6cz1hsAC",
+  "role": "6a1b27e34cac0ba3570bd796"
+},
+{
+  "name": "user",
+  "login": "user",
+  "password": "$2b$10$Kw6QBlMg8m.kyOWmLRlC6efOtNdA8wOTrhXPW/CbLtnUqAbLEGXUO",
+  "role": "6a1b27e34cac0ba3570bd797"
+}]

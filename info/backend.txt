@@ -1,5 +1,0 @@
-зависимости 
-express mongoose chalk@4.1.2
-
-REST API
-/

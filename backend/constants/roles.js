@@ -1,5 +1,5 @@
 module.exports = {
-    ADMIN: "6a11dfe26980095835871fec",
+    ADMIN: "6a1b15ad43c6442bcab2f684",
     MODERATOR: "6a11e891e9e39217562455c8",
     USER: "6a11e899e9e39217562455c9",
     GUEST: "6a11e8a3e9e39217562455ca"
