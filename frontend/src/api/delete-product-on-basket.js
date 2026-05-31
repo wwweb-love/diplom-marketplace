@@ -1,4 +1,4 @@
-import server from "../constants"
+import {server} from "../constants"
 
 export const deleteProductOnBasket = (userId, productId) => (
     fetch(`http://${server.ip}:${server.port}/basket/products`, {

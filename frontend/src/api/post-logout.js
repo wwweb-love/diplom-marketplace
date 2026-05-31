@@ -1,4 +1,4 @@
-import server from "../constants"
+import {server} from "../constants"
 
 export const postLogout = () => (
     fetch(`http://${server.ip}:${server.port}/auth/logout`, {

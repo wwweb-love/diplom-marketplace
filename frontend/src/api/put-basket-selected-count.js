@@ -1,4 +1,4 @@
-import server from "../constants"
+import {server} from "../constants"
 
 export const putBasketSelectedCount = (productId, selectedCount) => (
     fetch(`http://${server.ip}:${server.port}/basket/selected_count`, {

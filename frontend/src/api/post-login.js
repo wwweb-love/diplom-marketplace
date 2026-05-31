@@ -1,4 +1,4 @@
-import server from "../constants"
+import {server} from "../constants"
 
 export const postLogin = (data) => (
     fetch(`http://${server.ip}:${server.port}/auth/login`, {
