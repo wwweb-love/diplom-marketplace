@@ -1,5 +1,7 @@
+import server from "../constants"
+
 export const putEditUserPassAdminData = (data) => (
-    fetch(`http://localhost:3000/admin/users/${data.id}/pass`, {
+    fetch(`http://${server.ip}:${server.port}/admin/users/${data.id}/pass`, {
                 method: "PUT",
                 credentials: 'include',
                 headers: {

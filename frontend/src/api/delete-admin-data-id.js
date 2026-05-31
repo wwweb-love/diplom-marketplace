@@ -1,6 +1,7 @@
+import server from "../constants"
 
 export const deleteAdminDataId = (adminDataType, id) => (
-    fetch(`http://localhost:3000/admin/${adminDataType}/${id}`, {
+    fetch(`http://${server.ip}:${server.port}/admin/${adminDataType}/${id}`, {
         credentials: 'include',
         method: "DELETE"
     })

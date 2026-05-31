@@ -1,5 +1,7 @@
+import server from "../constants"
+
 export const postRegistration = (data) => (
-    fetch("http://localhost:3000/auth/register", {
+    fetch(`http://${server.ip}:${server.port}/auth/register`, {
             method: "POST",
             credentials: 'include',
             headers: {

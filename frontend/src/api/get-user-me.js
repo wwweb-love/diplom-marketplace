@@ -1,4 +1,6 @@
+import server from "../constants"
+
 export const getUserMe = () => (
-    fetch("http://localhost:3000/auth/me", { credentials: 'include' })
+    fetch(`http://${server.ip}:${server.port}/auth/me`, { credentials: 'include' })
         .then(loaded => loaded.json())
 )

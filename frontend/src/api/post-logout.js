@@ -1,5 +1,7 @@
+import server from "../constants"
+
 export const postLogout = () => (
-    fetch("http://localhost:3000/auth/logout", {
+    fetch(`http://${server.ip}:${server.port}/auth/logout`, {
         method: "POST",
         credentials: 'include',
         headers: {

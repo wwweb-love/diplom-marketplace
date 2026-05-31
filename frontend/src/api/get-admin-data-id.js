@@ -1,3 +1,5 @@
+import server from "../constants"
+
 export const getAdminDataId = (adminDataType, id) => (
-    fetch(`http://localhost:3000/admin/${adminDataType}/${id}`, { credentials: 'include' }).then(loaded => loaded.json())
+    fetch(`http://${server.ip}:${server.port}/admin/${adminDataType}/${id}`, { credentials: 'include' }).then(loaded => loaded.json())
 )

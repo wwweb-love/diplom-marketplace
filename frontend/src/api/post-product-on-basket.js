@@ -1,5 +1,7 @@
+import server from "../constants"
+
 export const postProductOnBasket = (userId, productId) => (
-    fetch(`http://localhost:3000/basket/products`, {
+    fetch(`http://${server.ip}:${server.port}/basket/products`, {
             method: "POST",
             credentials: 'include',
             headers: {

@@ -1,5 +1,7 @@
+import server from "../constants"
+
 export const postCreateAdminData = (adminDataType, data) => (
-    fetch(`http://localhost:3000/admin/${adminDataType}`, {
+    fetch(`http://${server.ip}:${server.port}/admin/${adminDataType}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json;charset=utf-8"
